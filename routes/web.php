@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,9 +16,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function() {
-    return Inertia::render('Home', []);
-})->name('home');
+Route::get('/', [GameController::class, 'index'])->name('home');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

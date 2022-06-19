@@ -1,9 +1,9 @@
 require("./bootstrap");
 
-import React from "react";
-import { render } from "react-dom";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import { InertiaProgress } from "@inertiajs/progress";
+import React from "react";
+import { render } from "react-dom";
 import Layout from "./Layouts/Layout";
 
 const appName =
