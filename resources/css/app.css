@@ -1,3 +1,19 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.card-styling {
+  @apply border-solid border-2 rounded-md bg-purple-100 border-purple-900 p-1;
+}
+
+.symbol-status {
+  @apply m-1 flex flex-col items-center hover:bg-purple-300 hover:cursor-pointer;
+}
+
+.suspect-status {
+  @apply flex w-full justify-between my-1;
+}
+
+.suspect-cleared {
+  @apply bg-gray-100 border-gray-900;
+}
