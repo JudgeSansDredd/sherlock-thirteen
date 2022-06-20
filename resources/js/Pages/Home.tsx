@@ -7,7 +7,6 @@ import { AppStateType } from "../types";
 export default function Home(props: AppStateType) {
   const { user, gameState } = props;
   const { suspectState } = gameState;
-  console.log(suspectState);
   return (
     <>
       <Head title="Home" />

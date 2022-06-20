@@ -12,8 +12,9 @@ export type LongSymbolType =
 
 interface UserType {
   name: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
+  last_activity_at: string;
 }
 
 export interface SuspectStateType {

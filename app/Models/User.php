@@ -18,4 +18,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
     ];
+
+    protected $appends = [
+        'last_activity_at'
+    ];
+
+    public function getLastActivityAtAttribute() {
+        return $this->updated_at;
+    }
+
+    public function games() {
+        return $this->hasMany(Game::class, 'user_id', 'id');
+    }
 }

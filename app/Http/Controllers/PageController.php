@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -25,6 +27,18 @@ class PageController extends Controller
             $user = $request->user();
         }
 
+        $currentGame = $user->games()->latest()->first();
+        $isValidGame = !empty($currentGame) && Carbon::now()->subDays(1)->isBefore($currentGame->created_at) && $currentGame->is_active;
+
+        if($isValidGame) {
+            // Game is valid
+            // TODO: Something here?
+        } else {
+            $game = new Game();
+            $user->games()->save($game);
+        }
+
+        // TODO: Calculate game state
         $gameState = [
             'suspectState' => [
                 'cantHave' => ['b', 'n'],
