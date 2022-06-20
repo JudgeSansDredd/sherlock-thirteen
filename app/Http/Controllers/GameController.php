@@ -7,18 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
+/**
+ * Class GameController
+ *
+ * Controls all post and get requests for game data
+ */
 class GameController extends Controller
 {
-    public function index(Request $request) {
-        if(!auth()->check()) {
-            // No current user
-            $name = Str::uuid();
-            $user = User::create(compact('name'));
-            auth()->login($user);
-        } else {
-            $user = $request->user();
-        }
 
-        return Inertia::render('Home', compact('user'));
-    }
 }

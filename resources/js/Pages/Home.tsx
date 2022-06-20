@@ -2,33 +2,16 @@ import { Head } from "@inertiajs/inertia-react";
 import React from "react";
 import SuspectStatus from "../Components/SuspectStatus";
 import SymbolStatus from "../Components/SymbolStatus";
-import { User } from "../types";
+import { AppStateType } from "../types";
 
-interface PropType {
-  user: User;
-}
-
-export default function Home(props: PropType) {
-  /*
-              Suspect('Sebastian Moran', ['s', 'f']),
-            Suspect('Irene Adler', ['s', 'l', 'n']),
-            Suspect('Inspector Lestrade', ['b', 'e', 'j']),
-            Suspect('Inspector Gregson', ['b', 'f', 'j']),
-            Suspect('Inspector Baynes', ['b', 'l']),
-            Suspect('Inspector Bradstreet', ['b', 'f']),
-            Suspect('Inspector Hopkins', ['b', 'p', 'e']),
-            Suspect('Sherlock Holmes', ['p', 'l', 'f']),
-            Suspect('John Watson', ['p', 'e', 'f']),
-            Suspect('Mycroft Holmes', ['p', 'l', 'j']),
-            Suspect('Mrs. Hudson', ['p', 'n']),
-            Suspect('Mary Morstan', ['j', 'n']),
-            Suspect('James Moriarty', ['s', 'l'])
-
-            */
-
+export default function Home(props: AppStateType) {
+  const { user, gameState } = props;
+  const { suspectState } = gameState;
+  console.log(suspectState);
   return (
     <>
       <Head title="Home" />
+      <div>User: {user.name}</div>
       <div className="flex flex-wrap justify-center">
         <SymbolStatus symbol="Pipe" found={0} remaining={5} />
         <SymbolStatus symbol="Lightbulb" found={0} remaining={5} />
@@ -40,18 +23,66 @@ export default function Home(props: PropType) {
         <SymbolStatus symbol="Skull" found={0} remaining={3} />
       </div>
       <div className="flex flex-col items-center p-2">
-        <SuspectStatus name="Sebastian Moran" symbols={["s", "f"]} />
-        <SuspectStatus name="Irene Adler" symbols={["s", "l", "n"]} />
-        <SuspectStatus name="Inspector Lestrade" symbols={["b", "e", "j"]} />
-        <SuspectStatus name="Inspector Gregson" symbols={["b", "f", "j"]} />
-        <SuspectStatus name="Inspector Baynes" symbols={["b", "l"]} />
-        <SuspectStatus name="Inspector Bradstreet" symbols={["b", "f"]} />
-        <SuspectStatus name="Inspector Hopkins" symbols={["b", "p", "e"]} />
-        <SuspectStatus name="Sherlock Holmes" symbols={["p", "l", "f"]} />
-        <SuspectStatus name="John Watson" symbols={["p", "e", "f"]} />
-        <SuspectStatus name="Mycroft Holmes" symbols={["p", "l", "j"]} />
-        <SuspectStatus name="Mrs. Hudson" symbols={["p", "n"]} />
-        <SuspectStatus name="James Moriarty" symbols={["s", "l"]} />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Sebastian Moran"
+          symbols={["s", "f"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Irene Adler"
+          symbols={["s", "l", "n"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Inspector Lestrade"
+          symbols={["b", "e", "j"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Inspector Gregson"
+          symbols={["b", "f", "j"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Inspector Baynes"
+          symbols={["b", "l"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Inspector Bradstreet"
+          symbols={["b", "f"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Inspector Hopkins"
+          symbols={["b", "p", "e"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Sherlock Holmes"
+          symbols={["p", "l", "f"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="John Watson"
+          symbols={["p", "e", "f"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Mycroft Holmes"
+          symbols={["p", "l", "j"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="Mrs. Hudson"
+          symbols={["p", "n"]}
+        />
+        <SuspectStatus
+          suspectState={suspectState}
+          name="James Moriarty"
+          symbols={["s", "l"]}
+        />
       </div>
     </>
   );

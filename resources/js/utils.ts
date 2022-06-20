@@ -1,6 +1,8 @@
-import { LongSymbol, ShortSymbol } from "./types";
+import { LongSymbolType, ShortSymbolType } from "./types";
 
-export function shortToLongSymbol(shortSymbol: ShortSymbol): LongSymbol {
+export function shortToLongSymbol(
+  shortSymbol: ShortSymbolType,
+): LongSymbolType {
   switch (shortSymbol) {
     case "p":
       return "Pipe";
