@@ -17,7 +17,7 @@ use Inertia\Inertia;
  */
 class PageController extends Controller
 {
-    public function index(Request $request) {
+    private function getUser(Request $request) {
         if(!auth()->check()) {
             // No current user
             $name = Str::uuid();
@@ -26,6 +26,11 @@ class PageController extends Controller
         } else {
             $user = $request->user();
         }
+        return $user;
+    }
+
+    public function index(Request $request) {
+        $user = $this->getUser($request);
 
         $currentGame = $user->games()->latest()->first();
         $isValidGame = !empty($currentGame) && Carbon::now()->subDays(1)->isBefore($currentGame->created_at) && $currentGame->is_active;
@@ -34,8 +39,7 @@ class PageController extends Controller
             // Game is valid
             // TODO: Something here?
         } else {
-            $game = new Game();
-            $user->games()->save($game);
+
         }
 
         // TODO: Calculate game state
@@ -47,5 +51,10 @@ class PageController extends Controller
         ];
 
         return Inertia::render('Home', compact('user', 'gameState'));
+    }
+
+    public function createGame(Request $request) {
+        $user = $this->getUser($request);
+        return Inertia::render('CreateGame', compact('user'));
     }
 }

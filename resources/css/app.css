@@ -17,3 +17,7 @@
 .suspect-cleared {
   @apply bg-gray-100 border-gray-900;
 }
+
+.num-player-styling {
+  @apply border-2 border-purple-900 border-solid py-2 px-8 text-lg hover:bg-purple-300 hover:cursor-pointer;
+}
