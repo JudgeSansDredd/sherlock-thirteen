@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Player;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -34,6 +35,14 @@ class GameController extends Controller
             'active_player' => $request->startingPlayer
         ]);
         $user->games()->save($game);
+
+        foreach ($request->players as $key => $playerName) {
+            $player = new Player([
+                'name' => $playerName,
+                'is_user' => $key == 0
+            ]);
+            $game->players()->save($player);
+        }
 
         return response('Ok', 200);
     }
