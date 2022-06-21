@@ -39,8 +39,8 @@ class PageController extends Controller
             // TODO: Calculate game state
             $gameState = [
                 'suspectState' => [
-                    'cantHave' => ['b', 'n'],
-                    'mustHave' => ['p']
+                    'cantHave' => [],
+                    'mustHave' => []
                 ]
             ];
         } else {
