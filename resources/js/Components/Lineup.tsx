@@ -11,8 +11,9 @@ export default function Lineup({ suspectState }: PropType) {
     return (
       <SuspectStatus
         key={`suspect-status-${suspectData.name
-          .replace(/\W/, "-")
-          .toLowerCase()}`}
+          .replace(/\W+/, "-")
+          .toLowerCase()
+          .trim()}`}
         {...{ suspectState, ...suspectData }}
       />
     );

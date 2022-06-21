@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import NumPlayerSelector from "../Components/NumPlayerSelector";
 import PlayerNameCollector from "../Components/PlayerNameCollector";
+import StartingHandSelector from "../Components/StartingHandSelector";
 
 interface GameSetupType {
   numPlayers: 3 | 4 | null;
@@ -15,7 +16,7 @@ declare function route(name: string): string;
 
 export default function CreateGame() {
   const [gameSetup, setGameSetup] = useState<GameSetupType>({
-    numPlayers: null,
+    numPlayers: 4,
     startingPlayer: null,
     players: [],
   });
@@ -130,6 +131,7 @@ export default function CreateGame() {
             setStartingPlayer={setStartingPlayer}
             visible={gameSetup.numPlayers === 4}
           />
+          <StartingHandSelector />
           <button className="mt-8 purple-button" onClick={startGameApi}>
             Start Game
           </button>
