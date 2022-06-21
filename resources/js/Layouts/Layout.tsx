@@ -5,7 +5,9 @@ export default function Layout(props: React.PropsWithChildren<{}>) {
   return (
     <div className="min-w-screen min-h-screen bg-white flex flex-col items-center">
       <Header />
-      <div className="container flex flex-col">{props.children}</div>
+      <div className="container flex flex-col grow min-w-full">
+        {props.children}
+      </div>
     </div>
   );
 }

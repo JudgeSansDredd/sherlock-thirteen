@@ -21,3 +21,11 @@
 .num-player-styling {
   @apply border-2 border-purple-900 border-solid py-2 px-8 text-lg hover:bg-purple-300 hover:cursor-pointer;
 }
+
+.purple-button {
+  @apply bg-gradient-to-r from-purple-100 via-purple-300 to-purple-100 active:from-purple-300 active:via-purple-100 active:to-purple-300 p-2 rounded-full border-purple-900 hover:drop-shadow-lg;
+}
+
+.original-purple-button {
+  @apply bg-gradient-to-br from-purple-300 via-purple-100 to-purple-300 hover:from-purple-100 hover:via-purple-300 hover:to-purple-100 p-2 rounded-full border-2 border-solid border-purple-900 drop-shadow-lg;
+}

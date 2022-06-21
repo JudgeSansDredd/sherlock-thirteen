@@ -16,7 +16,7 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->boolean('is_active')->default(true);
+            $table->integer('num_players');
             $table->integer('active_player')->default(0);
             $table->timestamps();
         });

@@ -9,6 +9,11 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'num_players',
+        'active_player'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

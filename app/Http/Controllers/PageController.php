@@ -33,22 +33,19 @@ class PageController extends Controller
         $user = $this->getUser($request);
 
         $currentGame = $user->games()->latest()->first();
-        $isValidGame = !empty($currentGame) && Carbon::now()->subDays(1)->isBefore($currentGame->created_at) && $currentGame->is_active;
+        $isValidGame = !empty($currentGame) && Carbon::now()->subDays(1)->isBefore($currentGame->created_at);
 
         if($isValidGame) {
-            // Game is valid
-            // TODO: Something here?
+            // TODO: Calculate game state
+            $gameState = [
+                'suspectState' => [
+                    'cantHave' => ['b', 'n'],
+                    'mustHave' => ['p']
+                ]
+            ];
         } else {
-
+            return redirect(route('create-game'));
         }
-
-        // TODO: Calculate game state
-        $gameState = [
-            'suspectState' => [
-                'cantHave' => ['b', 'n'],
-                'mustHave' => ['p']
-            ]
-        ];
 
         return Inertia::render('Home', compact('user', 'gameState'));
     }
