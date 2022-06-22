@@ -131,7 +131,7 @@ export default function CreateGame() {
             setStartingPlayer={setStartingPlayer}
             visible={gameSetup.numPlayers === 4}
           />
-          <StartingHandSelector />
+          <StartingHandSelector selected={[]} />
           <button className="mt-8 purple-button" onClick={startGameApi}>
             Start Game
           </button>
