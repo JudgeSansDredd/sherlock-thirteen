@@ -10,7 +10,7 @@ export default function Home(props: AppStateType) {
   return (
     <>
       <Head title="Home" />
-      <div>User: {user.name}</div>
+      <div>User: {user.id}</div>
       <div className="flex flex-wrap justify-center">
         <SymbolStatus symbol="Pipe" found={0} remaining={5} />
         <SymbolStatus symbol="Lightbulb" found={0} remaining={5} />

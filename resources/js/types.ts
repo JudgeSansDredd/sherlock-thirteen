@@ -11,7 +11,7 @@ export type LongSymbolType =
   | "Skull";
 
 interface UserType {
-  name: string;
+  id: string;
   created_at: string;
   updated_at: string;
   last_activity_at: string;
@@ -30,3 +30,18 @@ export interface AppStateType {
   user: UserType;
   gameState: GameStateType;
 }
+
+export type SuspectNameType =
+  | "Sebastian Moran"
+  | "Irene Adler"
+  | "Inspector Lestrade"
+  | "Inspector Gregson"
+  | "Inspector Baynes"
+  | "Inspector Bradstreet"
+  | "Inspector Hopkins"
+  | "Sherlock Holmes"
+  | "John Watson"
+  | "Mycroft Holmes"
+  | "Mrs. Hudson"
+  | "Mary Morstan"
+  | "James Moriarty";

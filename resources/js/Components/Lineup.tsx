@@ -1,5 +1,5 @@
 import React from "react";
-import { suspects } from "../common";
+import { SUSPECTS } from "../constants";
 import { SuspectStateType } from "../types";
 import SuspectStatus from "./SuspectStatus";
 
@@ -7,7 +7,7 @@ interface PropType {
   suspectState: SuspectStateType;
 }
 export default function Lineup({ suspectState }: PropType) {
-  const suspectComponents = suspects.map(suspectData => {
+  const suspectComponents = SUSPECTS.map(suspectData => {
     return (
       <SuspectStatus
         key={`suspect-status-${suspectData.name
