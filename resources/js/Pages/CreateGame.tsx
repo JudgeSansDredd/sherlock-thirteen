@@ -1,15 +1,17 @@
 import { Inertia } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/inertia-react";
 import axios from "axios";
-import React, { ChangeEvent, MouseEvent, useState } from "react";
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import NumPlayerSelector from "../Components/NumPlayerSelector";
 import PlayerNameCollector from "../Components/PlayerNameCollector";
 import StartingHandSelector from "../Components/StartingHandSelector";
+import { SuspectNameType } from "../types";
 
 interface GameSetupType {
   numPlayers: 3 | 4 | null;
   startingPlayer: 0 | 1 | 2 | 3 | null;
   players: string[];
+  startingHand: SuspectNameType[];
 }
 
 declare function route(name: string): string;
@@ -19,10 +21,48 @@ export default function CreateGame() {
     numPlayers: 4,
     startingPlayer: null,
     players: [],
+    startingHand: [],
   });
 
+  useEffect(() => {
+    const { numPlayers, startingHand } = gameSetup;
+    const maxSelectable = numPlayers ? 12 / numPlayers : 0;
+    const currentSelected = startingHand.length;
+    let newStartingHand: SuspectNameType[];
+    if (currentSelected > maxSelectable) {
+      newStartingHand = startingHand;
+      newStartingHand.length = maxSelectable;
+    } else {
+      return;
+    }
+    setGameSetup(prev => {
+      return { ...prev, startingHand: newStartingHand };
+    });
+  }, [gameSetup.numPlayers]);
+
+  const toggleSuspectStartingHand = (name: SuspectNameType) => {
+    const { numPlayers, startingHand } = gameSetup;
+    const maxSelectable = numPlayers ? 12 / numPlayers : 0;
+    const currentSelected = startingHand.length;
+
+    let newStartingHand: SuspectNameType[];
+
+    if (startingHand.includes(name)) {
+      // Remove from starting hand
+      newStartingHand = startingHand.filter(el => el !== name);
+    } else if (currentSelected < maxSelectable) {
+      // Add to starting hand, if allowed
+      newStartingHand = [...startingHand, name];
+    } else {
+      return;
+    }
+    setGameSetup(prev => {
+      return { ...prev, startingHand: newStartingHand };
+    });
+  };
+
   const startGameApi = () => {
-    const url = route("create-game");
+    const url = route("api-create-game");
     axios
       .post(url, gameSetup)
       .then(res => {
@@ -48,7 +88,9 @@ export default function CreateGame() {
         throw new Error("ID of passed numPlayer div not set or sent correctly");
     }
     const players = Array(numPlayers).fill("", 0, numPlayers);
-    setGameSetup({ numPlayers, startingPlayer, players });
+    setGameSetup(prev => {
+      return { ...prev, numPlayers, startingPlayer, players };
+    });
   };
 
   const setPlayerName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +173,10 @@ export default function CreateGame() {
             setStartingPlayer={setStartingPlayer}
             visible={gameSetup.numPlayers === 4}
           />
-          <StartingHandSelector selected={[]} />
+          <StartingHandSelector
+            selected={gameSetup.startingHand}
+            toggleSuspectStartingHand={toggleSuspectStartingHand}
+          />
           <button className="mt-8 purple-button" onClick={startGameApi}>
             Start Game
           </button>

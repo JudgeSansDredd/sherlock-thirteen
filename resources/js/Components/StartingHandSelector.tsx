@@ -4,12 +4,13 @@ import { SuspectNameType } from "../types";
 
 interface PropType {
   selected: SuspectNameType[];
+  toggleSuspectStartingHand: (name: SuspectNameType) => void;
 }
 
-export default function StartingHandSelector({ selected }: PropType) {
+export default function StartingHandSelector(props: PropType) {
   const handleToggle = (e: MouseEvent<HTMLDivElement>) => {
-    const clicked = e.currentTarget.innerHTML;
-    // TODO: Continue, here
+    const clicked = e.currentTarget.innerHTML as SuspectNameType;
+    props.toggleSuspectStartingHand(clicked);
   };
 
   const suspectDivs = SUSPECTS.map(suspectData => {
@@ -18,8 +19,9 @@ export default function StartingHandSelector({ selected }: PropType) {
       <div
         key={`${name.replace(/\W+/, "-").toLowerCase().trim()}`}
         className={`${
-          selected.includes(name) ? "bg-purple-300" : "bg-gray-300"
+          props.selected.includes(name) ? "bg-purple-300" : "bg-gray-300"
         } p-2 mx-1 hover:cursor-pointer rounded-full`}
+        onClick={handleToggle}
       >
         {name}
       </div>

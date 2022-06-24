@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Player;
+use App\Models\Suspect;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,6 +27,8 @@ class GameController extends Controller
         $request->validate([
             'numPlayers' => 'bail|required|integer|gte:3|lte:4',
             'startingPlayer' => 'required|integer|gte:0|lte:4',
+            'startingHand' => "required|array|size:" . (12 / intval($request->numPlayers)),
+            'startingHand.*' => 'required|string|in:' . implode(',', Suspect::pluck('name')->toArray()),
             'players' => "required|array|size:$request->numPlayers",
             'players.*' => 'required|string|distinct'
         ]);

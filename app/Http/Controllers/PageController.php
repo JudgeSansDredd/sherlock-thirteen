@@ -20,8 +20,7 @@ class PageController extends Controller
     private function getUser(Request $request) {
         if(!auth()->check()) {
             // No current user
-            $name = Str::uuid();
-            $user = User::create(compact('name'));
+            $user = User::create();
             auth()->login($user);
         } else {
             $user = $request->user();

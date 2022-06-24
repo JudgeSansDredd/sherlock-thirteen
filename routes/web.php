@@ -17,4 +17,3 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/create-game', [PageController::class, 'createGame'])->name('create-game');
-Route::post('/create-game', [GameController::class, 'createGame'])->name('create-game');

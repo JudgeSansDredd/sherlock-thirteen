@@ -1,4 +1,4 @@
-import { ShortSymbolType, SuspectNameType } from "./types";
+import { LongSymbolType, ShortSymbolType, SuspectNameType } from "./types";
 
 export const SUSPECTS: { name: SuspectNameType; symbols: ShortSymbolType[] }[] =
   [
@@ -19,7 +19,7 @@ export const SUSPECTS: { name: SuspectNameType; symbols: ShortSymbolType[] }[] =
 
 export const SYMBOLS: Record<
   ShortSymbolType,
-  { totalInGame: number; name: string }
+  { totalInGame: 3 | 4 | 5; name: LongSymbolType }
 > = {
   p: { totalInGame: 5, name: "Pipe" },
   l: { totalInGame: 5, name: "Lightbulb" },
