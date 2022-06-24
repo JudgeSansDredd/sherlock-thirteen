@@ -51,4 +51,17 @@ class Game extends Model
             'cantHave' => ['n']
         ];
     }
+
+    public function advanceActivePlayer() {
+        $activePlayer = $this->active_player;
+        $players = $this->players;
+        $index = $players->search(function($player) use ($activePlayer) {
+            return $player->id == $activePlayer->id;
+        });
+        $index = ($index + 1) % $this->num_players;
+        $newActivePlayer = $players[$index];
+        $this->active_player()->associate($newActivePlayer);
+        $this->save();
+        return $newActivePlayer;
+    }
 }
