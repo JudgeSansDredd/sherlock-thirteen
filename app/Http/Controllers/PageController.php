@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Game;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 /**
@@ -31,22 +30,14 @@ class PageController extends Controller
     public function index(Request $request) {
         $user = $this->getUser($request);
 
-        $currentGame = $user->games()->latest()->first();
-        $isValidGame = !empty($currentGame) && Carbon::now()->subDays(1)->isBefore($currentGame->created_at);
+        $game = $user->games()->latest()->with('players', 'active_player')->first();
+        $isValidGame = !empty($game) && Carbon::now()->subDays(1)->isBefore($game->created_at);
 
-        if($isValidGame) {
-            // TODO: Calculate game state
-            $gameState = [
-                'suspectState' => [
-                    'cantHave' => [],
-                    'mustHave' => []
-                ]
-            ];
-        } else {
+        if(!$isValidGame) {
             return redirect(route('create-game'));
         }
 
-        return Inertia::render('Home', compact('user', 'gameState'));
+        return Inertia::render('Home', compact('user', 'game'));
     }
 
     public function createGame(Request $request) {

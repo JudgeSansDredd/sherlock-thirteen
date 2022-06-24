@@ -11,7 +11,11 @@ class Game extends Model
 
     protected $fillable = [
         'num_players',
-        'active_player'
+        'active_player_id'
+    ];
+
+    protected $appends = [
+        'suspectState'
     ];
 
     public function user() {
@@ -20,6 +24,10 @@ class Game extends Model
 
     public function players() {
         return $this->hasMany(Player::class, 'game_id', 'id');
+    }
+
+    public function active_player() {
+        return $this->belongsTo(Player::class, 'active_player_id', 'id');
     }
 
     public function startingSuspects() {
@@ -32,8 +40,15 @@ class Game extends Model
     }
 
     public function getStartingSymbolsAttribute() {
-        return $this->startingSuspects()->map(function($suspect) {
+        return $this->startingSuspects->map(function($suspect) {
             return $suspect->symbols->pluck('short_symbol');
         })->collapse()->countBy();
+    }
+
+    public function getSuspectStateAttribute() {
+        return [
+            'mustHave' => ['p'],
+            'cantHave' => ['n']
+        ];
     }
 }

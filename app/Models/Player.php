@@ -17,4 +17,8 @@ class Player extends Model
     public function games() {
         return $this->belongsTo(Game::class, 'game_id', 'id');
     }
+
+    public function readyGame() {
+        return $this->hasMany(Game::class, 'active_player_id', 'id');
+    }
 }

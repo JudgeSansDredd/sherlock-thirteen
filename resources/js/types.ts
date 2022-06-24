@@ -10,6 +10,12 @@ export type LongSymbolType =
   | "Eye"
   | "Skull";
 
+interface SymbolType {
+  id: number;
+  short_symbol: ShortSymbolType;
+  long_symbol: LongSymbolType;
+}
+
 interface UserType {
   id: string;
   created_at: string;
@@ -22,13 +28,24 @@ export interface SuspectStateType {
   cantHave: ShortSymbolType[];
 }
 
+export interface PlayerType {
+  id: number;
+  name: string;
+  is_user: boolean;
+}
+
 interface GameStateType {
+  id: number;
+  num_players: number;
+  active_player: PlayerType | null;
+  created_at: string;
+  updated_at: string;
   suspectState: SuspectStateType;
 }
 
 export interface AppStateType {
   user: UserType;
-  gameState: GameStateType;
+  game: GameStateType;
 }
 
 export type SuspectNameType =
