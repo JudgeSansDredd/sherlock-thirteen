@@ -5,12 +5,11 @@ import SymbolStatus from "../Components/SymbolStatus";
 import { AppStateType } from "../types";
 
 export default function Home(props: AppStateType) {
-  const { user, gameState } = props;
+  const { gameState } = props;
   const { suspectState } = gameState;
   return (
     <>
       <Head title="Home" />
-      <div>User: {user.id}</div>
       <div className="flex flex-wrap justify-center">
         <SymbolStatus symbol="Pipe" found={0} remaining={5} />
         <SymbolStatus symbol="Lightbulb" found={0} remaining={5} />

@@ -30,4 +30,10 @@ class Game extends Model
             'suspect_id'
         );
     }
+
+    public function getStartingSymbolsAttribute() {
+        return $this->startingSuspects()->map(function($suspect) {
+            return $suspect->symbols->pluck('short_symbol');
+        })->collapse()->countBy();
+    }
 }
