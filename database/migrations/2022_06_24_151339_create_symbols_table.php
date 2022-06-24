@@ -15,7 +15,8 @@ class CreateSymbolsTable extends Migration
     public function up()
     {
         Schema::create('symbols', function (Blueprint $table) {
-            $table->char('short_symbol')->primary();
+            $table->id();
+            $table->char('short_symbol');
             $table->string('long_symbol');
         });
 

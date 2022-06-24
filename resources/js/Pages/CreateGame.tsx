@@ -18,7 +18,7 @@ declare function route(name: string): string;
 
 export default function CreateGame() {
   const [gameSetup, setGameSetup] = useState<GameSetupType>({
-    numPlayers: 4,
+    numPlayers: null,
     startingPlayer: null,
     players: [],
     startingHand: [],
@@ -62,7 +62,7 @@ export default function CreateGame() {
   };
 
   const startGameApi = () => {
-    const url = route("api-create-game");
+    const url = route("create-game");
     axios
       .post(url, gameSetup)
       .then(res => {

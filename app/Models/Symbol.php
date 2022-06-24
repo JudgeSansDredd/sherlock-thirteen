@@ -13,10 +13,8 @@ class Symbol extends Model
         return $this->belongsToMany(
             Suspect::class,
             'suspects_symbols',
-            'short_symbol',
-            'suspect_name',
-            'short_symbol',
-            'name'
+            'symbol_id',
+            'suspect_id'
         );
     }
 }

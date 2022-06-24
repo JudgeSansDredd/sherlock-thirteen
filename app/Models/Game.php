@@ -21,4 +21,13 @@ class Game extends Model
     public function players() {
         return $this->hasMany(Player::class, 'game_id', 'id');
     }
+
+    public function startingSuspects() {
+        return $this->belongsToMany(
+            Suspect::class,
+            'games_suspects',
+            'game_id',
+            'suspect_id'
+        );
+    }
 }

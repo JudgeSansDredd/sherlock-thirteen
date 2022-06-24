@@ -15,4 +15,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/create-game', [GameController::class, 'createGame'])->name('api-create-game');

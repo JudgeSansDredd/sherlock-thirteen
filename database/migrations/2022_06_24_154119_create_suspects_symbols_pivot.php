@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Suspect;
+use App\Models\Symbol;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +17,8 @@ class CreateSuspectsSymbolsPivot extends Migration
     public function up()
     {
         Schema::create('suspects_symbols', function (Blueprint $table) {
-            $table->id();
-            $table->string('suspect_name');
-            $table->char('short_symbol');
+            $table->integer('suspect_id');
+            $table->integer('symbol_id');
         });
 
         $manifest = [
@@ -37,12 +38,9 @@ class CreateSuspectsSymbolsPivot extends Migration
         ];
 
         foreach($manifest as $name => $symbols) {
-            foreach($symbols as $symbol) {
-                DB::table('suspects_symbols')->insert([
-                    'suspect_name' => $name,
-                    'short_symbol' => $symbol
-                ]);
-            }
+            $symbolIds = Symbol::whereIn('short_symbol', $symbols)->pluck('id');
+            $suspect = Suspect::where('name', $name)->first();
+            $suspect->symbols()->sync($symbolIds);
         }
     }
 

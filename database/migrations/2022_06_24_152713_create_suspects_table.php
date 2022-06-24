@@ -15,7 +15,8 @@ class CreateSuspectsTable extends Migration
     public function up()
     {
         Schema::create('suspects', function (Blueprint $table) {
-            $table->string('name')->primary();
+            $table->id();
+            $table->string('name');
         });
 
         DB::table('suspects')->insert([
