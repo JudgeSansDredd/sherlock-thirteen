@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\Suspect;
+use App\Utils\GameUtils;
 use Illuminate\Http\Request;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Http\Request;
  */
 class GameController extends Controller
 {
-    public function createGame(Request $request) {
+    public function saveGame(Request $request) {
         // Are we authenticated?
         if(!auth()->check()) {
             return response('Unauthorized', 401);
@@ -56,6 +57,17 @@ class GameController extends Controller
         $game->active_player()->associate($player);
         $game->save();
 
+        return response('Ok', 200);
+    }
+
+    public function saveInterrogation(Request $request) {
+        if(!auth()->check()) {
+            return response('Unauthorized', 401);
+        }
+        $game = GameUtils::getCurrentGame($request->user());
+        if(!$game) {
+            return response('No valid game', 400);
+        }
         return response('Ok', 200);
     }
 }

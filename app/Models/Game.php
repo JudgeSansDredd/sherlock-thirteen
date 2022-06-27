@@ -14,10 +14,6 @@ class Game extends Model
         'active_player_id'
     ];
 
-    protected $appends = [
-        'suspectState'
-    ];
-
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -43,13 +39,6 @@ class Game extends Model
         return $this->startingSuspects->map(function($suspect) {
             return $suspect->symbols->pluck('short_symbol');
         })->collapse()->countBy();
-    }
-
-    public function getSuspectStateAttribute() {
-        return [
-            'mustHave' => ['p'],
-            'cantHave' => ['n']
-        ];
     }
 
     public function advanceActivePlayer() {

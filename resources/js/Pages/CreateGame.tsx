@@ -62,7 +62,7 @@ export default function CreateGame() {
   };
 
   const startGameApi = () => {
-    const url = route("create-game");
+    const url = route("save-game");
     axios
       .post(url, gameSetup)
       .then(res => {

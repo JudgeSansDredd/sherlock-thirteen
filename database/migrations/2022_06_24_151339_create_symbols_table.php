@@ -18,40 +18,49 @@ class CreateSymbolsTable extends Migration
             $table->id();
             $table->char('short_symbol');
             $table->string('long_symbol');
+            $table->integer('total_in_game');
         });
 
         DB::table('symbols')->insert([
             [
                 'short_symbol' => 'p',
-                'long_symbol' => 'Pipe'
+                'long_symbol' => 'Pipe',
+                'total_in_game' => 5
             ],
             [
                 'short_symbol' => 'l',
-                'long_symbol' => 'Lightbulb'
+                'long_symbol' => 'Lightbulb',
+                'total_in_game' => 5
             ],
             [
                 'short_symbol' => 'f',
-                'long_symbol' => 'Fist'
+                'long_symbol' => 'Fist',
+                'total_in_game' => 5
             ],
             [
                 'short_symbol' => 'b',
-                'long_symbol' => 'Badge'
+                'long_symbol' => 'Badge',
+                'total_in_game' => 5
             ],
             [
                 'short_symbol' => 'j',
-                'long_symbol' => 'Journal'
+                'long_symbol' => 'Journal',
+                'total_in_game' => 4
             ],
             [
                 'short_symbol' => 'n',
-                'long_symbol' => 'Necklace'
+                'long_symbol' => 'Necklace',
+                'total_in_game' => 3
             ],
             [
                 'short_symbol' => 'e',
-                'long_symbol' => 'Eye'
+                'long_symbol' => 'Eye',
+                'total_in_game' => 3
             ],
             [
                 'short_symbol' => 's',
-                'long_symbol' => 'Skull'
+                'long_symbol' => 'Skull',
+                'total_in_game' => 3
             ],
         ]);
     }

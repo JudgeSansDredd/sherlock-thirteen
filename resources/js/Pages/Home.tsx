@@ -3,15 +3,23 @@ import React from "react";
 import Lineup from "../Components/Lineup";
 import SymbolStatus from "../Components/SymbolStatus";
 import { AppStateType } from "../types";
+import { getSuspectState } from "../utils";
 
 export default function Home(props: AppStateType) {
   const { game } = props;
-  const { suspectState, active_player } = game;
+  const { active_player } = game;
+  const suspectState = getSuspectState();
   return (
     <>
       <Head title="Home" />
-      <Link href="/">Go home</Link>
-      <div>{`It is ${active_player?.name}'s turn`}</div>
+      <div className="flex justify-center">
+        <div>{`It is ${active_player?.name}'s turn`}</div>
+      </div>
+      <div className="flex justify-center">
+        <Link href="/interrogate" className="purple-button">
+          Interrogate
+        </Link>
+      </div>
       <div className="flex flex-wrap justify-center">
         <SymbolStatus symbol="Pipe" found={0} remaining={5} />
         <SymbolStatus symbol="Lightbulb" found={0} remaining={5} />

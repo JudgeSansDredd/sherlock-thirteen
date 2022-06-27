@@ -1,6 +1,6 @@
 import React from "react";
 import { ShortSymbolType, SuspectStateType } from "../types";
-import { shortToLongSymbol } from "../utils";
+import { getSymbol } from "../utils";
 
 interface PropType {
   name: string;
@@ -32,7 +32,7 @@ export default function SuspectStatus(props: PropType) {
           murdererDoesntHave ? "text-gray-300 line-through" : ""
         } ${murdererDoesHave ? "underline" : ""}`}
       >
-        {shortToLongSymbol(symbol)}
+        {getSymbol(symbol).long_symbol}
       </div>
     );
   });
@@ -47,7 +47,7 @@ export default function SuspectStatus(props: PropType) {
           key={`${name}-${mustHave}`}
           className={`mx-1 text-gray-300 underline`}
         >
-          {shortToLongSymbol(mustHave)}
+          {getSymbol(mustHave).long_symbol}
         </div>
       );
     });

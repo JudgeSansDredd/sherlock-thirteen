@@ -1,4 +1,4 @@
-import { LongSymbolType, ShortSymbolType, SuspectNameType } from "./types";
+import { ShortSymbolType, SuspectNameType, SymbolType } from "./types";
 
 export const SUSPECTS: { name: SuspectNameType; symbols: ShortSymbolType[] }[] =
   [
@@ -17,16 +17,13 @@ export const SUSPECTS: { name: SuspectNameType; symbols: ShortSymbolType[] }[] =
     { name: "James Moriarty", symbols: ["s", "l"] },
   ];
 
-export const SYMBOLS: Record<
-  ShortSymbolType,
-  { totalInGame: 3 | 4 | 5; name: LongSymbolType }
-> = {
-  p: { totalInGame: 5, name: "Pipe" },
-  l: { totalInGame: 5, name: "Lightbulb" },
-  f: { totalInGame: 5, name: "Fist" },
-  b: { totalInGame: 5, name: "Badge" },
-  j: { totalInGame: 4, name: "Journal" },
-  n: { totalInGame: 3, name: "Necklace" },
-  e: { totalInGame: 3, name: "Eye" },
-  s: { totalInGame: 3, name: "Skull" },
-};
+export const SYMBOLS: SymbolType[] = [
+  { total_in_game: 5, short_symbol: "p", long_symbol: "Pipe" },
+  { total_in_game: 5, short_symbol: "l", long_symbol: "Lightbulb" },
+  { total_in_game: 5, short_symbol: "f", long_symbol: "Fist" },
+  { total_in_game: 5, short_symbol: "b", long_symbol: "Badge" },
+  { total_in_game: 4, short_symbol: "j", long_symbol: "Journal" },
+  { total_in_game: 3, short_symbol: "n", long_symbol: "Necklace" },
+  { total_in_game: 3, short_symbol: "e", long_symbol: "Eye" },
+  { total_in_game: 3, short_symbol: "s", long_symbol: "Skull" },
+];
