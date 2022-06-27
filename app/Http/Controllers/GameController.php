@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Interrogation;
 use App\Models\Player;
 use App\Models\Suspect;
 use App\Utils\GameUtils;
@@ -68,6 +69,25 @@ class GameController extends Controller
         if(!$game) {
             return response('No valid game', 400);
         }
+
+        // Validate the submission
+        $request->validate([
+            'interrogatee' => 'bail|required|string',
+            'symbol' => 'required|string',
+            'numberClaimed' => 'required|integer|gte:0|lte:5'
+        ]);
+
+        $player = $game->players()->where('name', $request->interrogatee)->first();
+        if(empty($player)) {
+            return response('Incorrect name given', 400);
+        }
+        $interrogation = new Interrogation([
+              'game_id' => $game->id
+            , 'player_id' => $player->id
+            , 'symbol' => $request->symbol
+            , 'number_claimed' => $request->numberClaimed
+        ]);
+        $interrogation->save();
         return response('Ok', 200);
     }
 }

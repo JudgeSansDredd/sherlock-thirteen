@@ -14,11 +14,21 @@ class Player extends Model
         'is_user'
     ];
 
-    public function games() {
+    public function game() {
         return $this->belongsTo(Game::class, 'game_id', 'id');
     }
 
     public function readyGame() {
         return $this->hasMany(Game::class, 'active_player_id', 'id');
+    }
+
+    public function interrogations() {
+        return $this->hasMany(Interrogation::class, 'player_id', 'id');
+    }
+
+    public function advanceCard() {
+        $game = $this->game;
+        $handSize = 12 / $game->num_players;
+        $hiddenCard = $this->hiddenCard == $handSize ? 1 : $this->hiddenCard + 1;
     }
 }

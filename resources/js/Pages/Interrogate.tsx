@@ -32,8 +32,17 @@ export default function Interrogate(props: AppStateType) {
   }
 
   const handleSubmit = () => {
+    const { interrogatee, symbol, numberClaimed } = interrogateState;
+    if (interrogatee === null || symbol === null) {
+      throw new Error("Not ready to submit!");
+    }
+    const payload = {
+      interrogatee,
+      symbol: symbol.short_symbol,
+      numberClaimed,
+    };
     axios
-      .post(route("save-interrogation"), interrogateState)
+      .post(route("save-interrogation"), payload)
       .then(res => {
         Inertia.get("/");
       })
