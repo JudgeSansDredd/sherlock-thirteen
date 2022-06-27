@@ -29,6 +29,7 @@ class Player extends Model
     public function advanceCard() {
         $game = $this->game;
         $handSize = 12 / $game->num_players;
-        $hiddenCard = $this->hiddenCard == $handSize ? 1 : $this->hiddenCard + 1;
+        $this->hidden_card = $this->hidden_card == $handSize ? 1 : $this->hidden_card + 1;
+        $this->save();
     }
 }

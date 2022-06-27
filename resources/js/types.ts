@@ -38,6 +38,7 @@ export interface GameStateType {
   id: number;
   num_players: number;
   active_player: PlayerType | null;
+  hard_mode: boolean;
   created_at: string;
   updated_at: string;
   players: PlayerType[];

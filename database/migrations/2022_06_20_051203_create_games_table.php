@@ -18,6 +18,7 @@ class CreateGamesTable extends Migration
             $table->integer('user_id');
             $table->integer('num_players');
             $table->integer('active_player_id')->default(0);
+            $table->boolean('hard_mode')->default(true);
             $table->timestamps();
         });
     }

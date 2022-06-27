@@ -11,7 +11,8 @@ class Game extends Model
 
     protected $fillable = [
         'num_players',
-        'active_player_id'
+        'active_player_id',
+        'hard_mode'
     ];
 
     public function user() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateInterrogationEvent;
 use App\Models\Game;
 use App\Models\Interrogation;
 use App\Models\Player;
@@ -87,7 +88,7 @@ class GameController extends Controller
             , 'symbol' => $request->symbol
             , 'number_claimed' => $request->numberClaimed
         ]);
-        $interrogation->save();
+        CreateInterrogationEvent::dispatch($interrogation);
         return response('Ok', 200);
     }
 }
