@@ -12,6 +12,7 @@ class Interrogation extends Model
     protected $fillable = [
           'game_id'
         , 'player_id'
+        , 'hidden_card'
         , 'symbol'
         , 'number_claimed'
     ];

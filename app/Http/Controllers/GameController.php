@@ -85,6 +85,7 @@ class GameController extends Controller
         $interrogation = new Interrogation([
               'game_id' => $game->id
             , 'player_id' => $player->id
+            , 'hidden_card' => $player->hidden_card
             , 'symbol' => $request->symbol
             , 'number_claimed' => $request->numberClaimed
         ]);

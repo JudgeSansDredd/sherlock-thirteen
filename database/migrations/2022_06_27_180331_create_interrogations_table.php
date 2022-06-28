@@ -17,6 +17,7 @@ class CreateInterrogationsTable extends Migration
             $table->id();
             $table->integer('game_id');
             $table->integer('player_id');
+            $table->integer('hidden_card');
             $table->char('symbol');
             $table->integer('number_claimed');
             $table->timestamps();
