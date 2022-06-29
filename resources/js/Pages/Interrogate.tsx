@@ -1,7 +1,10 @@
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import axios from "axios";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
+import NumberButton from "../Components/NumberButton";
+import PlayerButton from "../Components/PlayerButton";
+import SymbolButton from "../Components/SymbolButton";
 import { SYMBOLS } from "../constants";
 import { AppStateType, LongSymbolType, SymbolType } from "../types";
 import { getNonActivePlayers, getSymbol } from "../utils";
@@ -9,7 +12,7 @@ import { getNonActivePlayers, getSymbol } from "../utils";
 interface InterrogateStateType {
   interrogatee: string | null;
   symbol: SymbolType | null;
-  numberClaimed: number;
+  numberClaimed: number | null;
 }
 
 declare function route(name: string): string;
@@ -20,7 +23,7 @@ export default function Interrogate(props: AppStateType) {
     useState<InterrogateStateType>({
       interrogatee: null,
       symbol: null,
-      numberClaimed: 0,
+      numberClaimed: null,
     });
 
   if (!game.active_player) {
@@ -31,7 +34,19 @@ export default function Interrogate(props: AppStateType) {
     );
   }
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    setInterrogateState(prev => {
+      return { ...prev, numberClaimed: null };
+    });
+  }, [interrogateState.symbol]);
+
+  useEffect(() => {
+    setInterrogateState(prev => {
+      return { ...prev, symbol: null, numberClaimed: null };
+    });
+  }, [interrogateState.interrogatee]);
+
+  const handleSubmitClick = () => {
     const { interrogatee, symbol, numberClaimed } = interrogateState;
     if (interrogatee === null || symbol === null) {
       throw new Error("Not ready to submit!");
@@ -73,34 +88,27 @@ export default function Interrogate(props: AppStateType) {
 
   const interrogateeButtons = interrogatees.map(interrogatee => {
     return (
-      <div
+      <PlayerButton
         key={`interrogatee-${interrogatee.name}`}
-        className={`${
-          interrogateState.interrogatee === interrogatee.name
-            ? "bg-purple-300"
-            : "bg-gray-300"
-        } p-2 m-1 hover:cursor-pointer rounded-full`}
-        onClick={handleInterrogateeClick}
-      >
-        {interrogatee.name}
-      </div>
+        name={interrogatee.name}
+        active={interrogateState.interrogatee === interrogatee.name}
+        handleClick={handleInterrogateeClick}
+      />
     );
   });
 
   const symbolButtons = SYMBOLS.map(symbol => {
+    const active =
+      (interrogateState.symbol &&
+        interrogateState.symbol.short_symbol === symbol.short_symbol) ??
+      false;
     return (
-      <div
+      <SymbolButton
         key={`symbol-${symbol.short_symbol}`}
-        className={`${
-          interrogateState.symbol &&
-          interrogateState.symbol.short_symbol === symbol.short_symbol
-            ? "bg-purple-300"
-            : "bg-gray-300"
-        } p-2 m-1 hover:cursor-pointer rounded-full`}
-        onClick={handleSymbolClick}
-      >
-        {symbol.long_symbol}
-      </div>
+        symbol={symbol}
+        active={active}
+        handleClick={handleSymbolClick}
+      />
     );
   });
 
@@ -109,19 +117,19 @@ export default function Interrogate(props: AppStateType) {
     : [];
   const numberButtons = numberOptions.map(num => {
     return (
-      <div
+      <NumberButton
         key={`number-${num}`}
-        className={`${
-          interrogateState.numberClaimed === num
-            ? "bg-purple-300"
-            : "bg-gray-300"
-        } py-2 px-8 m-1 hover:cursor-pointer rounded-full`}
-        onClick={handleNumberclick}
-      >
-        {num}
-      </div>
+        number={num}
+        active={interrogateState.numberClaimed === num}
+        handleClick={handleNumberclick}
+      />
     );
   });
+
+  const readyToSubmit =
+    interrogateState.interrogatee !== null &&
+    interrogateState.numberClaimed !== null &&
+    interrogateState.symbol !== null;
 
   return (
     <div className="flex flex-col items-center">
@@ -148,8 +156,8 @@ export default function Interrogate(props: AppStateType) {
         {numberButtons}
       </div>
       <div
-        className={`purple-button ${interrogateState.symbol ? "" : "hidden"}`}
-        onClick={handleSubmit}
+        className={`purple-button ${readyToSubmit ? "" : "hidden"}`}
+        onClick={handleSubmitClick}
       >
         Submit
       </div>
