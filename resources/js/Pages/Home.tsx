@@ -5,7 +5,9 @@ import SymbolStatus from "../Components/SymbolStatus";
 import { AppStateType } from "../types";
 import { getSuspectState } from "../utils";
 
+declare function route(name: string): string;
 export default function Home(props: AppStateType) {
+  console.log(props.game.interrogations);
   const { game } = props;
   const { active_player } = game;
   const suspectState = getSuspectState();
@@ -16,8 +18,11 @@ export default function Home(props: AppStateType) {
         <div>{`It is ${active_player?.name}'s turn`}</div>
       </div>
       <div className="flex justify-center">
-        <Link href="/interrogate" className="purple-button">
+        <Link href={route("create-interrogation")} className="purple-button">
           Interrogate
+        </Link>
+        <Link href={route("create-investigation")} className="purple-button">
+          Investigate
         </Link>
       </div>
       <div className="flex flex-wrap justify-center">

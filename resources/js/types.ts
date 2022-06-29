@@ -32,6 +32,17 @@ export interface PlayerType {
   id: number;
   name: string;
   is_user: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InterrogationType {
+  player_id: number;
+  hidden_card: number;
+  symbol: ShortSymbolType;
+  number_claimed: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface GameStateType {
@@ -42,10 +53,13 @@ export interface GameStateType {
   created_at: string;
   updated_at: string;
   players: PlayerType[];
+  interrogations: InterrogationType[];
 }
 
 export interface AppStateType {
-  user: UserType;
+  auth: {
+    user: UserType;
+  };
   game: GameStateType;
 }
 

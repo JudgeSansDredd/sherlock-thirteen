@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class GameUtils {
     public static function getCurrentGame(User $user) {
-        $game = $user->games()->latest()->with('players', 'active_player')->first();
+        $game = $user->games()->latest()->with('players', 'active_player', 'interrogations')->first();
         $isValidGame = !empty($game) && Carbon::now()->subDays(1)->isBefore($game->created_at);
         return $isValidGame ? $game : false;
     }

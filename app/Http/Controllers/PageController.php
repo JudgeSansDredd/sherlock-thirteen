@@ -33,12 +33,12 @@ class PageController extends Controller
         if(!$game) {
             return redirect(route('create-game'));
         }
-        return Inertia::render('Home', compact('user', 'game'));
+        return Inertia::render('Home', compact('game'));
     }
 
     public function createGame(Request $request) {
         $user = $this->getUser($request);
-        return Inertia::render('CreateGame', compact('user'));
+        return Inertia::render('CreateGame');
     }
 
     public function createInterrogation(Request $request) {
@@ -47,6 +47,15 @@ class PageController extends Controller
         if(!$game) {
             return redirect(route('create-game'));
         }
-        return Inertia::render('Interrogate', compact('user', 'game'));
+        return Inertia::render('Interrogate', compact('game'));
+    }
+
+    public function createInvestigation(Request $request) {
+        $user = $this->getUser($request);
+        $game = GameUtils::getCurrentGame($user);
+        if(!$game) {
+            return redirect(route('create-game'));
+        }
+        return Inertia::render('Investigate', compact('game'));
     }
 }
