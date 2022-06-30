@@ -9,6 +9,11 @@ interface PropType {
 
 export default function NumberButton(props: PropType) {
   const { number, active, handleClick } = props;
-  const params = { active, handleClick, buttonText: number.toString() };
+  const params = {
+    active,
+    handleClick,
+    buttonText: number.toString(),
+    extraPadding: true,
+  };
   return <SelectButton {...params} />;
 }

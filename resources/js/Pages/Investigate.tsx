@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/inertia-react";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
+import PlayerInvestigation from "../Components/PlayerInvestigation";
 import SymbolButton from "../Components/SymbolButton";
 import { SYMBOLS } from "../constants";
 import { AppStateType, LongSymbolType, SymbolType } from "../types";
@@ -39,22 +40,74 @@ export default function Investigate(props: AppStateType) {
       <SymbolButton
         key={`symbol-${symbol.short_symbol}`}
         symbol={symbol}
-        active={
-          (investigateState.symbol &&
-            investigateState.symbol.short_symbol === symbol.short_symbol) ??
-          false
-        }
+        active={investigateState.symbol?.short_symbol === symbol.short_symbol}
         handleClick={handleSymbolClick}
       />
     );
   });
 
+  const updatePlayerReports = (player_id: number, number_claimed: number) => {
+    const otherReports = investigateState.results.filter(report => {
+      return report.player_id !== player_id;
+    });
+    setInvestigateState(prev => {
+      return {
+        ...prev,
+        results: [...otherReports, { player_id, number_claimed }],
+      };
+    });
+  };
+
   const players = getNonActivePlayers(props.game);
+  const playerComponents = players.map(player => {
+    const { id, name } = player;
+    const playerParams = { id, name };
+    const numPossible = investigateState.symbol?.total_in_game;
+    const matchingResult = investigateState.results.filter(reuslt => {
+      return reuslt.player_id === player.id;
+    });
+    const selected = matchingResult.length
+      ? matchingResult[0].number_claimed
+      : null;
+    return (
+      <PlayerInvestigation
+        key={`player-investigate-${player.name}`}
+        player={playerParams}
+        numberPossible={numPossible}
+        reportSelection={updatePlayerReports}
+        selection={selected}
+      />
+    );
+  });
+
+  useEffect(() => {
+    setInvestigateState(prev => {
+      return { ...prev, results: [] };
+    });
+  }, [investigateState.symbol]);
+
+  const readyToSubmit = investigateState.results.length === players.length;
+  const handleSubmitClick = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log(investigateState);
+  };
 
   return (
     <div className="flex flex-col items-center">
       <div>{`${props.game.active_player.name} is investigating the whereabouts of`}</div>
       <div className="flex flex-wrap justify-center">{symbolButtons}</div>
+      <div
+        className={`flex flex-col items-center ${
+          investigateState.symbol ? "" : "hidden"
+        }`}
+      >
+        {playerComponents}
+      </div>
+      <button
+        className={`purple-button ${readyToSubmit ? "" : "hidden"}`}
+        onClick={handleSubmitClick}
+      >
+        Submit
+      </button>
     </div>
   );
 }

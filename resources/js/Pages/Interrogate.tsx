@@ -2,7 +2,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import axios from "axios";
 import React, { MouseEvent, useEffect, useState } from "react";
-import NumberButton from "../Components/NumberButton";
+import NumberButtonRange from "../Components/NumberButtonRange";
 import PlayerButton from "../Components/PlayerButton";
 import SymbolButton from "../Components/SymbolButton";
 import { SYMBOLS } from "../constants";
@@ -46,7 +46,7 @@ export default function Interrogate(props: AppStateType) {
     });
   }, [interrogateState.interrogatee]);
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = (e: MouseEvent<HTMLButtonElement>) => {
     const { interrogatee, symbol, numberClaimed } = interrogateState;
     if (interrogatee === null || symbol === null) {
       throw new Error("Not ready to submit!");
@@ -79,7 +79,7 @@ export default function Interrogate(props: AppStateType) {
     });
   };
 
-  const handleNumberclick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleNumberClick = (e: MouseEvent<HTMLDivElement>) => {
     const numberClaimed = parseInt(e.currentTarget.innerHTML);
     setInterrogateState(prev => {
       return { ...prev, numberClaimed };
@@ -99,9 +99,7 @@ export default function Interrogate(props: AppStateType) {
 
   const symbolButtons = SYMBOLS.map(symbol => {
     const active =
-      (interrogateState.symbol &&
-        interrogateState.symbol.short_symbol === symbol.short_symbol) ??
-      false;
+      interrogateState.symbol?.short_symbol === symbol.short_symbol;
     return (
       <SymbolButton
         key={`symbol-${symbol.short_symbol}`}
@@ -112,19 +110,9 @@ export default function Interrogate(props: AppStateType) {
     );
   });
 
-  const numberOptions = interrogateState.symbol
-    ? [...Array(interrogateState.symbol?.total_in_game + 1).keys()]
-    : [];
-  const numberButtons = numberOptions.map(num => {
-    return (
-      <NumberButton
-        key={`number-${num}`}
-        number={num}
-        active={interrogateState.numberClaimed === num}
-        handleClick={handleNumberclick}
-      />
-    );
-  });
+  const numberOfSymbolInGame = interrogateState.symbol
+    ? interrogateState.symbol.total_in_game
+    : null;
 
   const readyToSubmit =
     interrogateState.interrogatee !== null &&
@@ -153,14 +141,18 @@ export default function Interrogate(props: AppStateType) {
           interrogateState.symbol ? "" : "hidden"
         } flex justify-center flex-wrap`}
       >
-        {numberButtons}
+        <NumberButtonRange
+          handleClick={handleNumberClick}
+          numPossible={numberOfSymbolInGame}
+          selectedNumber={interrogateState.numberClaimed}
+        />
       </div>
-      <div
+      <button
         className={`purple-button ${readyToSubmit ? "" : "hidden"}`}
         onClick={handleSubmitClick}
       >
         Submit
-      </div>
+      </button>
     </div>
   );
 }
