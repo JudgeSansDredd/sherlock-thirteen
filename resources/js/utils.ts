@@ -46,11 +46,23 @@ export function getSuspectState(): SuspectStateType {
 }
 
 export function getNonActivePlayers(game: GameStateType) {
-  const { active_player, players } = game;
-  if (!active_player) {
+  const { active_player_id, players } = game;
+  if (!active_player_id) {
     return players;
   }
+
   return players.filter(player => {
-    return player.name !== active_player.name;
+    return player.id !== active_player_id && !player.is_user;
   });
+}
+
+export function getActivePlayer(game: GameStateType) {
+  const { active_player_id, players } = game;
+  if (!active_player_id) {
+    return null;
+  }
+
+  return players.filter(player => {
+    return player.id === active_player_id;
+  })[0];
 }

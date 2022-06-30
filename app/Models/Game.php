@@ -54,8 +54,4 @@ class Game extends Model
         $this->save();
         return $newActivePlayer;
     }
-
-    public function interrogations() {
-        return $this->hasMany(Interrogation::class, 'game_id', 'id');
-    }
 }

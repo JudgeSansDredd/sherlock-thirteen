@@ -15,6 +15,9 @@ class CreateInvestigationEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $investigations;
+    public $game_id;
+
     /**
      * Create a new event instance.
      *
@@ -24,8 +27,7 @@ class CreateInvestigationEvent
     {
         $this->investigations = $investigations;
         $investigation = $investigations[0];
-        $player = Player::find($investigation->player_id);
-        $this->game_id = $player->game_id;
+        $this->game_id = Player::where('id', $investigation->player_id)->pluck('game_id')->first();
     }
 
 }

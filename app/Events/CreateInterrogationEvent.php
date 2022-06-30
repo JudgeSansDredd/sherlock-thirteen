@@ -26,6 +26,6 @@ class CreateInterrogationEvent
     public function __construct(Interrogation $interrogation)
     {
         $this->interrogation = $interrogation;
-        $this->game_id = $interrogation->game_id;
+        $this->game_id = $interrogation->player->game_id;
     }
 }

@@ -7,10 +7,10 @@ import PlayerButton from "../Components/PlayerButton";
 import SymbolButton from "../Components/SymbolButton";
 import { SYMBOLS } from "../constants";
 import { AppStateType, LongSymbolType, SymbolType } from "../types";
-import { getNonActivePlayers, getSymbol } from "../utils";
+import { getActivePlayer, getNonActivePlayers, getSymbol } from "../utils";
 
 interface InterrogateStateType {
-  interrogatee: string | null;
+  interrogatee: number | null;
   symbol: SymbolType | null;
   numberClaimed: number | null;
 }
@@ -26,13 +26,15 @@ export default function Interrogate(props: AppStateType) {
       numberClaimed: null,
     });
 
-  if (!game.active_player) {
+  if (!game.active_player_id) {
     return (
       <Link href="/" className="purple-button">
         Go Home
       </Link>
     );
   }
+
+  const activePlayer = getActivePlayer(game);
 
   useEffect(() => {
     setInterrogateState(prev => {
@@ -52,7 +54,7 @@ export default function Interrogate(props: AppStateType) {
       throw new Error("Not ready to submit!");
     }
     const payload = {
-      interrogatee,
+      player_id: interrogatee,
       symbol: symbol.short_symbol,
       numberClaimed,
     };
@@ -66,8 +68,14 @@ export default function Interrogate(props: AppStateType) {
 
   const handleInterrogateeClick = (e: MouseEvent<HTMLDivElement>) => {
     const clicked = e.currentTarget.innerHTML;
+    const selectedPlayer = interrogatees.filter(interrogatee => {
+      return interrogatee.name === clicked;
+    });
     setInterrogateState(prev => {
-      return { ...prev, interrogatee: clicked };
+      return {
+        ...prev,
+        interrogatee: selectedPlayer.length === 1 ? selectedPlayer[0].id : null,
+      };
     });
   };
 
@@ -91,7 +99,7 @@ export default function Interrogate(props: AppStateType) {
       <PlayerButton
         key={`interrogatee-${interrogatee.name}`}
         name={interrogatee.name}
-        active={interrogateState.interrogatee === interrogatee.name}
+        active={interrogateState.interrogatee === interrogatee.id}
         handleClick={handleInterrogateeClick}
       />
     );
@@ -121,7 +129,7 @@ export default function Interrogate(props: AppStateType) {
 
   return (
     <div className="flex flex-col items-center">
-      <div>{`${game.active_player.name} is interrogating`}</div>
+      <div>{`${activePlayer?.name} is interrogating`}</div>
       <div className="flex justify-center flex-wrap">{interrogateeButtons}</div>
       <div className={interrogateState.interrogatee ? "" : "hidden"}>
         about this symbol:

@@ -76,18 +76,17 @@ class GameController extends Controller
 
         // Validate the submission
         $request->validate([
-            'interrogatee' => 'bail|required|string',
+            'player_id' => 'required|integer',
             'symbol' => 'required|string',
             'numberClaimed' => 'required|integer|gte:0|lte:5'
         ]);
 
-        $player = $game->players()->where('name', $request->interrogatee)->first();
+        $player = Player::find($request->player_id);
         if(empty($player)) {
             return response('Incorrect name given', 400);
         }
         $interrogation = new Interrogation([
-              'game_id' => $game->id
-            , 'player_id' => $player->id
+              'player_id' => $player->id
             , 'hidden_card' => $player->hidden_card
             , 'symbol' => $request->symbol
             , 'number_claimed' => $request->numberClaimed

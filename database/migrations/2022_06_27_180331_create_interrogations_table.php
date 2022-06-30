@@ -15,10 +15,9 @@ class CreateInterrogationsTable extends Migration
     {
         Schema::create('interrogations', function (Blueprint $table) {
             $table->id();
-            $table->integer('game_id');
             $table->integer('player_id');
             $table->integer('hidden_card');
-            $table->char('symbol');
+            $table->integer('symbol_id');
             $table->integer('number_claimed');
             $table->timestamps();
         });

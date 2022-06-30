@@ -6,7 +6,7 @@ import PlayerInvestigation from "../Components/PlayerInvestigation";
 import SymbolButton from "../Components/SymbolButton";
 import { SYMBOLS } from "../constants";
 import { AppStateType, LongSymbolType, SymbolType } from "../types";
-import { getNonActivePlayers, getSymbol } from "../utils";
+import { getActivePlayer, getNonActivePlayers, getSymbol } from "../utils";
 
 interface InvestigateStateType {
   symbol: SymbolType | null;
@@ -21,13 +21,15 @@ export default function Investigate(props: AppStateType) {
   const [investigateState, setInvestigateState] =
     useState<InvestigateStateType>({ symbol: null, results: [] });
 
-  if (!props.game.active_player) {
+  if (!props.game.active_player_id) {
     return (
       <Link href={route("home")}>
         <div className="purple-button">Home</div>
       </Link>
     );
   }
+
+  const activePlayer = getActivePlayer(props.game);
 
   const handleSymbolClick = (e: MouseEvent<HTMLDivElement>) => {
     const clicked = e.currentTarget.innerHTML as LongSymbolType;
@@ -106,7 +108,7 @@ export default function Investigate(props: AppStateType) {
 
   return (
     <div className="flex flex-col items-center">
-      <div>{`${props.game.active_player.name} is investigating the whereabouts of`}</div>
+      <div>{`${activePlayer?.name} is investigating the whereabouts of`}</div>
       <div className="flex flex-wrap justify-center">{symbolButtons}</div>
       <div
         className={`flex flex-col items-center ${

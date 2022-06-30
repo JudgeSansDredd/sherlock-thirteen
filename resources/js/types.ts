@@ -34,12 +34,21 @@ export interface PlayerType {
   is_user: boolean;
   created_at: string;
   updated_at: string;
+  interrogations: InterrogationType[];
+  investigations: InvestigationType[];
+}
+
+export interface InvestigationType {
+  player_id: number;
+  hidden_card: number;
+  symbol: SymbolType;
+  number_claimed: number;
 }
 
 export interface InterrogationType {
   player_id: number;
   hidden_card: number;
-  symbol: ShortSymbolType;
+  symbol: SymbolType;
   number_claimed: number;
   created_at: string;
   updated_at: string;
@@ -48,7 +57,7 @@ export interface InterrogationType {
 export interface GameStateType {
   id: number;
   num_players: number;
-  active_player: PlayerType | null;
+  active_player_id: number | null;
   hard_mode: boolean;
   created_at: string;
   updated_at: string;

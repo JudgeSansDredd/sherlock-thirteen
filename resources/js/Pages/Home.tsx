@@ -3,13 +3,13 @@ import React from "react";
 import Lineup from "../Components/Lineup";
 import SymbolStatus from "../Components/SymbolStatus";
 import { AppStateType } from "../types";
-import { getSuspectState } from "../utils";
+import { getActivePlayer, getSuspectState } from "../utils";
 
 declare function route(name: string): string;
 export default function Home(props: AppStateType) {
-  console.log(props.game);
   const { game } = props;
-  const { active_player } = game;
+  console.log(game);
+  const active_player = getActivePlayer(game);
   const suspectState = getSuspectState();
   return (
     <>
@@ -18,10 +18,16 @@ export default function Home(props: AppStateType) {
         <div>{`It is ${active_player?.name}'s turn`}</div>
       </div>
       <div className="flex justify-center">
-        <Link href={route("create-interrogation")} className="purple-button">
+        <Link
+          href={route("create-interrogation")}
+          className="purple-button mx-2"
+        >
           Interrogate
         </Link>
-        <Link href={route("create-investigation")} className="purple-button">
+        <Link
+          href={route("create-investigation")}
+          className="purple-button mx-2"
+        >
           Investigate
         </Link>
       </div>

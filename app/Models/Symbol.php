@@ -17,4 +17,12 @@ class Symbol extends Model
             'suspect_id'
         );
     }
+
+    public function investigations() {
+        return $this->hasMany(Investigation::class, 'symbol_id', 'id');
+    }
+
+    public function interrogations() {
+        return $this->hasMany(Interrogation::class, 'symbol_id', 'id');
+    }
 }

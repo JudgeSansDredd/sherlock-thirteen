@@ -10,18 +10,17 @@ class Interrogation extends Model
     use HasFactory;
 
     protected $fillable = [
-          'game_id'
-        , 'player_id'
+          'player_id'
         , 'hidden_card'
         , 'symbol'
         , 'number_claimed'
     ];
 
-    public function game() {
-        return $this->belongsTo(Game::class, 'game_id', 'id');
-    }
-
     public function player() {
         return $this->belongsTo(Player::class, 'player_id', 'id');
+    }
+
+    public function symbol() {
+        return $this->belongsTo(Symbol::class, 'symbol_id', 'id');
     }
 }

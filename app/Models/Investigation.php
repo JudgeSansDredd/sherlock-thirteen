@@ -19,4 +19,8 @@ class Investigation extends Model
     public function player() {
         return $this->belongsTo(Player::class, 'player_id', 'id');
     }
+
+    public function symbol() {
+        return $this->belongsTo(Symbol::class, 'symbol_id', 'id');
+    }
 }

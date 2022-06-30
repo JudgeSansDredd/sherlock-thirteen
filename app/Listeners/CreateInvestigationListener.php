@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\CreateInvestigationEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -23,8 +24,8 @@ class CreateInvestigationListener
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(CreateInvestigationEvent $event)
     {
-        $event->interrogations->forEach(function($interrogation) { $interrogation->save(); });
+        $event->investigations->each(function($investigation) { $investigation->save(); });
     }
 }
