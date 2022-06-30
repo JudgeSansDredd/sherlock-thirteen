@@ -7,7 +7,7 @@ import { getSuspectState } from "../utils";
 
 declare function route(name: string): string;
 export default function Home(props: AppStateType) {
-  console.log(props.game.interrogations);
+  console.log(props.game);
   const { game } = props;
   const { active_player } = game;
   const suspectState = getSuspectState();

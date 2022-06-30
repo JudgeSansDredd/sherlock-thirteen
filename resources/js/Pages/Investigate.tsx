@@ -1,4 +1,6 @@
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
+import axios from "axios";
 import React, { MouseEvent, useEffect, useState } from "react";
 import PlayerInvestigation from "../Components/PlayerInvestigation";
 import SymbolButton from "../Components/SymbolButton";
@@ -88,7 +90,18 @@ export default function Investigate(props: AppStateType) {
 
   const readyToSubmit = investigateState.results.length === players.length;
   const handleSubmitClick = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(investigateState);
+    const { results } = investigateState;
+    if (!investigateState.symbol) {
+      return;
+    }
+    const symbol = investigateState.symbol.short_symbol;
+    const payload = { results, symbol };
+    axios
+      .post(route("save-investigation"), payload)
+      .then(res => {
+        Inertia.get("/");
+      })
+      .catch(err => console.log(err));
   };
 
   return (

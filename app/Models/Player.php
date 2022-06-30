@@ -26,6 +26,10 @@ class Player extends Model
         return $this->hasMany(Interrogation::class, 'player_id', 'id');
     }
 
+    public function investigations() {
+        return $this->hasMany(Investigation::class, 'player_id', 'id');
+    }
+
     public function advanceCard() {
         $game = $this->game;
         $handSize = 12 / $game->num_players;

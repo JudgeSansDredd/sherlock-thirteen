@@ -21,4 +21,5 @@ Route::get('/interrogate', [PageController::class, 'createInterrogation'])->name
 Route::get('/investigate', [PageController::class, 'createInvestigation'])->name('create-investigation');
 
 Route::post('/save-game', [GameController::class, 'saveGame'])->name('save-game');
-Route::post('save-interrogate', [GameController::class, 'saveInterrogation'])->name('save-interrogation');
+Route::post('/save-interrogation', [GameController::class, 'saveInterrogation'])->name('save-interrogation');
+Route::post('/save-investigation', [GameController::class, 'saveInvestigation'])->name('save-investigation');

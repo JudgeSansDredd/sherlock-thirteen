@@ -24,6 +24,8 @@ export default function CreateGame() {
     startingHand: [],
   });
 
+  const maxSelectable = gameSetup.numPlayers ? 12 / gameSetup.numPlayers : 0;
+
   useEffect(() => {
     const { numPlayers, startingHand } = gameSetup;
     const maxSelectable = numPlayers ? 12 / numPlayers : 0;
@@ -42,7 +44,6 @@ export default function CreateGame() {
 
   const toggleSuspectStartingHand = (name: SuspectNameType) => {
     const { numPlayers, startingHand } = gameSetup;
-    const maxSelectable = numPlayers ? 12 / numPlayers : 0;
     const currentSelected = startingHand.length;
 
     let newStartingHand: SuspectNameType[];
@@ -131,6 +132,12 @@ export default function CreateGame() {
     }
   };
 
+  const readyToSubmit =
+    gameSetup.numPlayers !== null &&
+    gameSetup.players.every(player => player !== "") &&
+    gameSetup.startingHand.length === maxSelectable &&
+    gameSetup.startingPlayer !== null;
+
   return (
     <>
       <Head title="Create Game" />
@@ -177,7 +184,10 @@ export default function CreateGame() {
             selected={gameSetup.startingHand}
             toggleSuspectStartingHand={toggleSuspectStartingHand}
           />
-          <button className="mt-8 purple-button" onClick={startGameApi}>
+          <button
+            className={`mt-8 purple-button ${readyToSubmit ? "" : "hidden"}`}
+            onClick={startGameApi}
+          >
             Start Game
           </button>
         </div>

@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\CreateInterrogationEvent;
+use App\Events\CreateInvestigationEvent;
 use App\Listeners\AdvancePlayerListener;
 use App\Listeners\CreateInterrogationListener;
+use App\Listeners\CreateInvestigationListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,6 +27,10 @@ class EventServiceProvider extends ServiceProvider
             CreateInterrogationListener::class,
             AdvancePlayerListener::class
         ],
+        CreateInvestigationEvent::class => [
+            CreateInvestigationListener::class,
+            AdvancePlayerListener::class
+        ]
     ];
 
     /**
