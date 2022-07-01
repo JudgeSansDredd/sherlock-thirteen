@@ -9,6 +9,13 @@ class Symbol extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+          'id' => 'integer'
+        , 'short_symbol' => 'string'
+        , 'long_symbol' => 'string'
+        , 'total_in_game' => 'string'
+    ];
+
     public function suspects() {
         return $this->belongsToMany(
             Suspect::class,

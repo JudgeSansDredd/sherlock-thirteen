@@ -18,13 +18,15 @@ class User extends Authenticatable
     protected $fillable = [
     ];
 
-    protected $appends = [
-        'last_activity_at'
+    protected $casts = [
+          'id' => 'integer'
+        , 'name' => 'string'
+        , 'is_user' => 'boolean'
+        , 'game_id' => 'integer'
+        , 'hidden_card' => 'integer'
+        , 'created_at' => 'datetime'
+        , 'updated_at' => 'datetime'
     ];
-
-    public function getLastActivityAtAttribute() {
-        return $this->updated_at;
-    }
 
     public function games() {
         return $this->hasMany(Game::class, 'user_id', 'id');

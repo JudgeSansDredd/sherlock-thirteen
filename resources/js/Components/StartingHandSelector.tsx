@@ -20,12 +20,12 @@ export default function StartingHandSelector(props: PropType) {
         key={`${name.replace(/\W+/, "-").toLowerCase().trim()}`}
         className={`${
           props.selected.includes(name) ? "bg-purple-300" : "bg-gray-300"
-        } p-2 mx-1 hover:cursor-pointer rounded-full`}
+        } p-2 m-2 hover:cursor-pointer rounded-full`}
         onClick={handleToggle}
       >
         {name}
       </div>
     );
   });
-  return <div className="flex flex-wrap">{suspectDivs}</div>;
+  return <div className="flex flex-wrap justify-center">{suspectDivs}</div>;
 }

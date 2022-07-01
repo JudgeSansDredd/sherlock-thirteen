@@ -10,7 +10,7 @@ export default function Home(props: AppStateType) {
   const { game } = props;
   console.log(game);
   const active_player = getActivePlayer(game);
-  const suspectState = getSuspectState();
+  const suspectState = getSuspectState(game);
   return (
     <>
       <Head title="Home" />

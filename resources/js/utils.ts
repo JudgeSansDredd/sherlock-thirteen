@@ -41,7 +41,7 @@ export function getSymbol(val: ShortSymbolType | LongSymbolType): SymbolType {
   }
 }
 
-export function getSuspectState(): SuspectStateType {
+export function getSuspectState(game: GameStateType): SuspectStateType {
   return { mustHave: [], cantHave: [] };
 }
 

@@ -9,6 +9,11 @@ class Suspect extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+          'id' => 'integer'
+        , 'name' => 'string'
+    ];
+
     public function startingGames() {
         return $this->belongsToMany(
             Game::class,

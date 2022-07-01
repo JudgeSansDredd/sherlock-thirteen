@@ -14,6 +14,16 @@ class Player extends Model
         'is_user'
     ];
 
+    protected $casts = [
+          'id' => 'integer'
+        , 'name' => 'string'
+        , 'is_user' => 'boolean'
+        , 'game_id' => 'integer'
+        , 'hidden_card' => 'integer'
+        , 'created_at' => 'datetime'
+        , 'udpated_at' => 'datetime'
+    ];
+
     public function game() {
         return $this->belongsTo(Game::class, 'game_id', 'id');
     }

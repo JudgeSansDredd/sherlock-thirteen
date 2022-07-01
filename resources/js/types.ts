@@ -17,10 +17,9 @@ export interface SymbolType {
 }
 
 export interface UserType {
-  id: string;
+  id: number;
   created_at: string;
   updated_at: string;
-  last_activity_at: string;
 }
 
 export interface SuspectStateType {
