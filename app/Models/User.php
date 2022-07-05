@@ -20,10 +20,6 @@ class User extends Authenticatable
 
     protected $casts = [
           'id' => 'integer'
-        , 'name' => 'string'
-        , 'is_user' => 'boolean'
-        , 'game_id' => 'integer'
-        , 'hidden_card' => 'integer'
         , 'created_at' => 'datetime'
         , 'updated_at' => 'datetime'
     ];

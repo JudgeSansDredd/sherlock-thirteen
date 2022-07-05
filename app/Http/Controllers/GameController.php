@@ -24,8 +24,6 @@ class GameController extends Controller
         // Are we authenticated?
         if(!auth()->check()) {
             return response('Unauthorized', 401);
-        } else {
-            $user = auth()->user();
         }
 
         // Validate the submission
@@ -38,29 +36,7 @@ class GameController extends Controller
             'players.*' => 'required|string|distinct'
         ]);
 
-        // Create the game
-        $game = new Game([
-            'num_players' => $request->numPlayers
-        ]);
-
-        // Attach the game to the user
-        $user->games()->save($game);
-
-        // Attach the starting hand to the game
-        $suspectIds = Suspect::whereIn('name', $request->startingHand)->pluck('id');
-        $game->startingSuspects()->sync($suspectIds);
-
-        foreach ($request->players as $key => $playerName) {
-            $player = new Player([
-                'name' => $playerName,
-                'is_user' => $key == 0
-            ]);
-            $game->players()->save($player);
-        }
-        $startingPlayerName = $request->players[$request->startingPlayer];
-        $player = $game->players()->where('name', $startingPlayerName)->first();
-        $game->active_player()->associate($player);
-        $game->save();
+        GameUtils::createGame($request);
 
         return response('Ok', 200);
     }

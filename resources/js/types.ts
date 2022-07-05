@@ -1,3 +1,18 @@
+export type SuspectNameType =
+  | "Sebastian Moran"
+  | "Irene Adler"
+  | "Inspector Lestrade"
+  | "Inspector Gregson"
+  | "Inspector Baynes"
+  | "Inspector Bradstreet"
+  | "Inspector Hopkins"
+  | "Sherlock Holmes"
+  | "John Watson"
+  | "Mycroft Holmes"
+  | "Mrs. Hudson"
+  | "Mary Morstan"
+  | "James Moriarty";
+
 export type ShortSymbolType = "p" | "l" | "f" | "b" | "j" | "n" | "e" | "s";
 
 export type LongSymbolType =
@@ -25,30 +40,19 @@ export interface UserType {
 export interface SuspectStateType {
   mustHave: ShortSymbolType[];
   cantHave: ShortSymbolType[];
+  cantBe: SuspectNameType[];
+}
+
+export interface PlayerSymbolStateType {
+  player: PlayerType;
+  minimum: number;
+  maximum: number;
 }
 
 export interface PlayerType {
   id: number;
   name: string;
   is_user: boolean;
-  created_at: string;
-  updated_at: string;
-  interrogations: InterrogationType[];
-  investigations: InvestigationType[];
-}
-
-export interface InvestigationType {
-  player_id: number;
-  hidden_card: number;
-  symbol: SymbolType;
-  number_claimed: number;
-}
-
-export interface InterrogationType {
-  player_id: number;
-  hidden_card: number;
-  symbol: SymbolType;
-  number_claimed: number;
   created_at: string;
   updated_at: string;
 }
@@ -69,18 +73,3 @@ export interface AppStateType {
   };
   game: GameStateType;
 }
-
-export type SuspectNameType =
-  | "Sebastian Moran"
-  | "Irene Adler"
-  | "Inspector Lestrade"
-  | "Inspector Gregson"
-  | "Inspector Baynes"
-  | "Inspector Bradstreet"
-  | "Inspector Hopkins"
-  | "Sherlock Holmes"
-  | "John Watson"
-  | "Mycroft Holmes"
-  | "Mrs. Hudson"
-  | "Mary Morstan"
-  | "James Moriarty";

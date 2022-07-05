@@ -42,7 +42,7 @@ export function getSymbol(val: ShortSymbolType | LongSymbolType): SymbolType {
 }
 
 export function getSuspectState(game: GameStateType): SuspectStateType {
-  return { mustHave: [], cantHave: [] };
+  return { mustHave: [], cantHave: [], cantBe: [] };
 }
 
 export function getNonActivePlayers(game: GameStateType) {
