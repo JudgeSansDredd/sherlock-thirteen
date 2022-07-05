@@ -61,7 +61,6 @@ export interface GameStateType {
   created_at: string;
   updated_at: string;
   players: PlayerType[];
-  interrogations: InterrogationType[];
 }
 
 export interface AppStateType {
