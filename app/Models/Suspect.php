@@ -16,19 +16,23 @@ class Suspect extends Model
 
     public function startingGames() {
         return $this->belongsToMany(
-            Game::class,
-            'games_suspects',
-            'suspect_id',
-            'game_id'
+              Game::class
+            , 'games_suspects'
+            , 'suspect_id'
+            , 'game_id'
+            , 'id'
+            , 'id'
         );
     }
 
     public function symbols() {
         return $this->belongsToMany(
-            Symbol::class,
-            'suspects_symbols',
-            'suspect_id',
-            'symbol_id'
+            Symbol::class
+            , 'suspects_symbols'
+            , 'suspect_id'
+            , 'symbol_id'
+            , 'id'
+            , 'id'
         );
     }
 }

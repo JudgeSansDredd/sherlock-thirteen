@@ -39,10 +39,12 @@ class Game extends Model
 
     public function startingSuspects() {
         return $this->belongsToMany(
-            Suspect::class,
-            'games_suspects',
-            'game_id',
-            'suspect_id'
+              Suspect::class
+            , 'games_suspects'
+            , 'game_id'
+            , 'suspect_id'
+            , 'id'
+            , 'id'
         );
     }
 

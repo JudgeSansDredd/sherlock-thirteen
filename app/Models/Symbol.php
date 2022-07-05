@@ -18,10 +18,23 @@ class Symbol extends Model
 
     public function suspects() {
         return $this->belongsToMany(
-            Suspect::class,
-            'suspects_symbols',
-            'symbol_id',
-            'suspect_id'
+              Suspect::class
+            , 'suspects_symbols'
+            , 'symbol_id'
+            , 'suspect_id'
+            , 'id'
+            , 'id'
+        );
+    }
+
+    public function players() {
+        return $this->belongsToMany(
+              Player::class
+            , 'player_symbols'
+            , 'player_id'
+            , 'symbol_id'
+            , 'id'
+            , 'id'
         );
     }
 
