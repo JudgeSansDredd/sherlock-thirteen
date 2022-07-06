@@ -17,7 +17,7 @@ export default function PlayerInvestigation(props: PropType) {
   };
 
   return (
-    <div className="flex justify-center items-center p-2">
+    <div className="flex items-center justify-center p-2">
       <div className="mx-2">{`${props.player.name} claims`}</div>
       <NumberButtonRange
         numPossible={props.numberPossible}

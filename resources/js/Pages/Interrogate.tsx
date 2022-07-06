@@ -130,7 +130,7 @@ export default function Interrogate(props: AppStateType) {
   return (
     <div className="flex flex-col items-center">
       <div>{`${activePlayer?.name} is interrogating`}</div>
-      <div className="flex justify-center flex-wrap">{interrogateeButtons}</div>
+      <div className="flex flex-wrap justify-center">{interrogateeButtons}</div>
       <div className={interrogateState.interrogatee ? "" : "hidden"}>
         about this symbol:
       </div>

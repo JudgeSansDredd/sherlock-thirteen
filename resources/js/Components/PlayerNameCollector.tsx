@@ -26,7 +26,7 @@ export default function PlayerNameCollector(props: PropType) {
         type="text"
         onChange={setPlayerName}
         value={playerName}
-        className="border-solid border-2 border-purple-900 rounded-lg"
+        className="border-2 border-purple-900 border-solid rounded-lg"
       />
       <input
         type="checkbox"

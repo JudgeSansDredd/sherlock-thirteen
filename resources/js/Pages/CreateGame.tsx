@@ -141,7 +141,7 @@ export default function CreateGame() {
   return (
     <>
       <Head title="Create Game" />
-      <div className="flex flex-col grow items-center">
+      <div className="flex flex-col items-center grow">
         <NumPlayerSelector
           numPlayers={gameSetup.numPlayers}
           setNumPlayers={setNumPlayers}

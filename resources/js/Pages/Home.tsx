@@ -20,13 +20,13 @@ export default function Home(props: AppStateType) {
       <div className="flex justify-center">
         <Link
           href={route("create-interrogation")}
-          className="purple-button mx-2"
+          className="mx-2 purple-button"
         >
           Interrogate
         </Link>
         <Link
           href={route("create-investigation")}
-          className="purple-button mx-2"
+          className="mx-2 purple-button"
         >
           Investigate
         </Link>

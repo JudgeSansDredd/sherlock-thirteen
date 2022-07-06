@@ -3,9 +3,9 @@ import Header from "../Components/Header";
 
 export default function Layout(props: React.PropsWithChildren<{}>) {
   return (
-    <div className="min-w-screen min-h-screen bg-white flex flex-col items-center">
+    <div className="flex flex-col items-center min-h-screen bg-white min-w-screen">
       <Header />
-      <div className="container flex flex-col grow min-w-full">
+      <div className="container flex flex-col min-w-full grow">
         {props.children}
       </div>
     </div>
