@@ -16,6 +16,14 @@ class PlayerSymbol extends Model
         , 'maximum'
     ];
 
+    public function player() {
+        return $this->belongsTo(Player::class, 'player_id', 'id');
+    }
+
+    public function symbol() {
+        return $this->belongsTo(Symbol::class, 'player_id', 'id');
+    }
+
     public function setMinimum(int $value) {
         // Minimum always goes up, never goes down
         $minimum = max($value, $this->minimum);

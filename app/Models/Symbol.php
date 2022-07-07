@@ -31,11 +31,18 @@ class Symbol extends Model
         return $this->belongsToMany(
               Player::class
             , 'player_symbols'
-            , 'player_id'
             , 'symbol_id'
+            , 'player_id'
             , 'id'
             , 'id'
+        )->withPivot(
+              'minimum'
+            , 'maximum'
         );
+    }
+
+    public function playerSymbols() {
+        return $this->hasMany(PlayerSymbol::class, 'symbol_id', 'id');
     }
 
     public function investigations() {
