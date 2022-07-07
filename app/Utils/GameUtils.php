@@ -41,11 +41,11 @@ class GameUtils {
         $game->save();
 
         // Update known information on this game
-        self::beginCalculationsOnStart($game);
+        self::insertPlayerSymbols($game);
     }
 
-    private static function beginCalculationsOnStart(Game $game) {
-        $players = $game->players()->where('is_user', false)->get();
+    private static function insertPlayerSymbols(Game $game) {
+        $players = $game->players;
         $symbols = Symbol::all();
         $startingSymbols = $game->starting_symbols;
 
@@ -54,13 +54,21 @@ class GameUtils {
                 ? $startingSymbols[$symbol->short_symbol]
                 : 0;
             $newMax = $symbol->total_in_game - $used;
-            $players->each(function($player) use ($symbol, $newMax) {
-                $playerSymbol = new PlayerSymbol([
-                      'player_id' => $player->id
-                    , 'symbol_id' => $symbol->id
-                    , 'maximum' => $newMax
-                ]);
-                $playerSymbol->save();
+            $players->each(function($player) use ($symbol, $newMax, $used) {
+                if($player->is_user) {
+                    PlayerSymbol::create([
+                          'player_id' => $player->id
+                        , 'symbol_id' => $symbol->id
+                        , 'maximum' => $used
+                        , 'minimum' => $used
+                    ]);
+                } else {
+                    PlayerSymbol::create([
+                          'player_id' => $player->id
+                        , 'symbol_id' => $symbol->id
+                        , 'maximum' => $newMax
+                    ]);
+                }
             });
         });
     }
@@ -69,14 +77,5 @@ class GameUtils {
         $game = $user->games()->latest()->with('players')->first();
         $isValidGame = !empty($game) && Carbon::now()->subDays(1)->isBefore($game->created_at);
         return $isValidGame ? $game : false;
-    }
-
-    public static function calculateGameState(Game $game) {
-        // Start by knowing nothing
-
-        // Calculate information from starting hand
-        $startingSymbols = $game->starting_symbols;
-        // Calculate information from investigations
-        // Calculate information from interrogations
     }
 }

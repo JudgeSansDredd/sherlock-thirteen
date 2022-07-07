@@ -66,4 +66,8 @@ class Game extends Model
         $this->save();
         return $newActivePlayer;
     }
+
+    public function getHandSizeAttribute() {
+        return 12 / $this->num_players;
+    }
 }
