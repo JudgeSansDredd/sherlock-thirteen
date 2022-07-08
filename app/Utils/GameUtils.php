@@ -4,9 +4,7 @@ namespace App\Utils;
 
 use App\Models\Game;
 use App\Models\Player;
-use App\Models\PlayerSymbol;
 use App\Models\Suspect;
-use App\Models\Symbol;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,38 +37,25 @@ class GameUtils {
         $player = $game->players()->where('name', $startingPlayerName)->first();
         $game->active_player()->associate($player);
         $game->save();
-
-        // Update known information on this game
-        self::insertPlayerSymbols($game);
     }
 
-    private static function insertPlayerSymbols(Game $game) {
-        $players = $game->players;
-        $symbols = Symbol::all();
-        $startingSymbols = $game->starting_symbols;
 
-        $symbols->each(function($symbol) use ($players, $startingSymbols) {
-            $used = $startingSymbols->has($symbol->short_symbol)
-                ? $startingSymbols[$symbol->short_symbol]
-                : 0;
-            $newMax = $symbol->total_in_game - $used;
-            $players->each(function($player) use ($symbol, $newMax, $used) {
-                if($player->is_user) {
-                    PlayerSymbol::create([
-                          'player_id' => $player->id
-                        , 'symbol_id' => $symbol->id
-                        , 'maximum' => $used
-                        , 'minimum' => $used
-                    ]);
-                } else {
-                    PlayerSymbol::create([
-                          'player_id' => $player->id
-                        , 'symbol_id' => $symbol->id
-                        , 'maximum' => $newMax
-                    ]);
-                }
-            });
-        });
+    public static function calculateGameState(Game $game) {
+        // Starting Game State
+        $gameState = new GameState($game);
+
+        // Iterate through players
+        foreach($game->players as $player) {
+            // Handle interrogations
+            foreach($player->interrogations as $interrogation) {
+                // TODO: Alter gamem state
+            }
+            // Handle investigations
+            foreach($player->investigations as $investigation) {
+                // TODO: Alter game state
+            }
+        }
+        // Return game state
     }
 
     public static function getCurrentGame(User $user) {
