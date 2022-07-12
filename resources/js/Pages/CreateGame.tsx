@@ -12,6 +12,7 @@ interface GameSetupType {
   startingPlayer: 0 | 1 | 2 | 3 | null;
   players: string[];
   startingHand: SuspectNameType[];
+  hardMode: boolean | null;
 }
 
 declare function route(name: string): string;
@@ -22,6 +23,7 @@ export default function CreateGame() {
     startingPlayer: null,
     players: [],
     startingHand: [],
+    hardMode: null,
   });
 
   const maxSelectable = gameSetup.numPlayers ? 12 / gameSetup.numPlayers : 0;
@@ -132,6 +134,14 @@ export default function CreateGame() {
     }
   };
 
+  const setHardMode = (e: MouseEvent<HTMLDivElement>) => {
+    const id = e.currentTarget.id;
+    const hardMode = id === "hardMode";
+    setGameSetup(prev => {
+      return { ...prev, hardMode };
+    });
+  };
+
   const readyToSubmit =
     gameSetup.numPlayers !== null &&
     gameSetup.players.every(player => player !== "") &&
@@ -184,6 +194,31 @@ export default function CreateGame() {
             selected={gameSetup.startingHand}
             toggleSuspectStartingHand={toggleSuspectStartingHand}
           />
+          <div className={`flex ${readyToSubmit ? "" : "hidden"}`}>
+            <div
+              className={`rounded-l-lg num-player-styling ${
+                gameSetup.hardMode === false
+                  ? "bg-purple-300 font-bold"
+                  : "bg-purple-100"
+              }`}
+              onClick={setHardMode}
+              id="easyMode"
+            >
+              Easy Game
+            </div>
+            <div
+              className={`rounded-r-lg num-player-styling ${
+                gameSetup.hardMode === true
+                  ? "bg-purple-300 font-bold"
+                  : "bg-purple-100"
+              }`}
+              onClick={setHardMode}
+              id="hardMode"
+            >
+              Advanced Game
+            </div>
+          </div>
+
           <button
             className={`mt-8 purple-button ${readyToSubmit ? "" : "hidden"}`}
             onClick={startGameApi}

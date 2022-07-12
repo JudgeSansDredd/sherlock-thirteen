@@ -24,6 +24,7 @@ class CreateInterrogationListener
      */
     public function handle(CreateInterrogationEvent $event)
     {
+        // TODO: Only save if this "card" hasn't already been hidden
         $event->interrogation->save();
     }
 }

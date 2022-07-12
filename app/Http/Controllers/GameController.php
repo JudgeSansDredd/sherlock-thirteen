@@ -33,7 +33,8 @@ class GameController extends Controller
             'startingHand' => "required|array|size:" . (12 / intval($request->numPlayers)),
             'startingHand.*' => 'required|string|in:' . implode(',', Suspect::pluck('name')->toArray()),
             'players' => "required|array|size:$request->numPlayers",
-            'players.*' => 'required|string|distinct'
+            'players.*' => 'required|string|distinct',
+            'hardMode' => 'required|boolean'
         ]);
 
         GameUtils::createGame($request);
@@ -61,10 +62,11 @@ class GameController extends Controller
         if(empty($player)) {
             return response('Incorrect name given', 400);
         }
+        $symbol = Symbol::where('short_symbol', $request->symbol)->first();
         $interrogation = new Interrogation([
               'player_id' => $player->id
             , 'hidden_card' => $player->hidden_card
-            , 'symbol' => $request->symbol
+            , 'symbol_id' => $symbol->id
             , 'number_claimed' => $request->numberClaimed
         ]);
         CreateInterrogationEvent::dispatch($interrogation);

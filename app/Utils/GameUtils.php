@@ -6,6 +6,8 @@ use App\Models\Game;
 use App\Models\Player;
 use App\Models\Suspect;
 use App\Models\User;
+use App\Utils\GameState\GameState;
+use App\Utils\GameState\PlayerState;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,8 @@ class GameUtils {
     public static function createGame(Request $request) {
         // Create the game
         $game = new Game([
-            'num_players' => $request->numPlayers
+              'num_players' => $request->numPlayers
+            , 'hard_mode' => $request->hardMode
         ]);
 
         // Attach the game to the user
@@ -41,19 +44,19 @@ class GameUtils {
 
 
     public static function calculateGameState(Game $game) {
-        // Starting Game State
-        $gameState = new GameState($game);
-
+        $playerStates = [];
         // Iterate through players
         foreach($game->players as $player) {
+            $playerState = new PlayerState($player, $game);
             // Handle interrogations
             foreach($player->interrogations as $interrogation) {
-                // TODO: Alter gamem state
+                $playerState->interrogate($interrogation);
             }
             // Handle investigations
             foreach($player->investigations as $investigation) {
                 // TODO: Alter game state
             }
+            array_push($playerStates, $playerState);
         }
         // Return game state
     }
