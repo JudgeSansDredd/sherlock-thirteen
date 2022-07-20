@@ -5,8 +5,8 @@ namespace App\Utils\GameState;
 use App\Models\Symbol;
 
 class SymbolState {
-    private int $minimum;
-    private int $maximum;
+    public int $minimum;
+    public int $maximum;
 
     public function __construct(int $minimum, int $maximum) {
         $this->minimum = $minimum;
@@ -29,17 +29,5 @@ class SymbolState {
         $maximum = max($maximum, $this->minimum);
 
         $this->maximum = $maximum;
-    }
-
-    public function isSolved() {
-        return $this->minimum == $this->maximum;
-    }
-
-    public function getMaximum() {
-        return $this->maximum;
-    }
-
-    public function getMinimum() {
-        return $this->minimum;
     }
 }

@@ -3,14 +3,22 @@ import React from "react";
 import Lineup from "../Components/Lineup";
 import SymbolStatus from "../Components/SymbolStatus";
 import { AppStateType } from "../types";
-import { getActivePlayer, getSuspectState } from "../utils";
+import { getActivePlayer, getSuspectState, getSymbolState } from "../utils";
 
 declare function route(name: string): string;
 export default function Home(props: AppStateType) {
-  const { game } = props;
-  console.log(game);
+  const { game, gameState } = props;
   const active_player = getActivePlayer(game);
   const suspectState = getSuspectState(game);
+  const symbolStatusComponents = getSymbolState(gameState).map(symbolstate => {
+    const { symbol, found, remaining } = symbolstate;
+    const params = {
+      symbol: symbol.long_symbol,
+      found,
+      remaining,
+    };
+    return <SymbolStatus key={`${symbol.short_symbol}-status`} {...params} />;
+  });
   return (
     <>
       <Head title="Home" />
@@ -32,14 +40,7 @@ export default function Home(props: AppStateType) {
         </Link>
       </div>
       <div className="flex flex-wrap justify-center">
-        <SymbolStatus symbol="Pipe" found={0} remaining={5} />
-        <SymbolStatus symbol="Lightbulb" found={0} remaining={5} />
-        <SymbolStatus symbol="Fist" found={0} remaining={5} />
-        <SymbolStatus symbol="Badge" found={0} remaining={5} />
-        <SymbolStatus symbol="Journal" found={0} remaining={4} />
-        <SymbolStatus symbol="Necklace" found={0} remaining={3} />
-        <SymbolStatus symbol="Eye" found={0} remaining={3} />
-        <SymbolStatus symbol="Skull" found={0} remaining={3} />
+        {symbolStatusComponents}
       </div>
       <Lineup suspectState={suspectState} />
     </>

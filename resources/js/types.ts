@@ -43,12 +43,6 @@ export interface SuspectStateType {
   cantBe: SuspectNameType[];
 }
 
-export interface PlayerSymbolStateType {
-  player: PlayerType;
-  minimum: number;
-  maximum: number;
-}
-
 export interface PlayerType {
   id: number;
   name: string;
@@ -57,7 +51,7 @@ export interface PlayerType {
   updated_at: string;
 }
 
-export interface GameStateType {
+export interface GameType {
   id: number;
   num_players: number;
   active_player_id: number | null;
@@ -67,9 +61,28 @@ export interface GameStateType {
   players: PlayerType[];
 }
 
+interface MinMax {
+  minimum: number;
+  maximum: number;
+}
+
+export interface PlayerSymbolType {
+  handSize: number;
+  hardMode: boolean;
+  player: PlayerType;
+  symbolStates: Record<ShortSymbolType, MinMax>;
+}
+
 export interface AppStateType {
   auth: {
     user: UserType;
   };
-  game: GameStateType;
+  game: GameType;
+  gameState: PlayerSymbolType[];
+}
+
+export interface SymbolStateType {
+  symbol: SymbolType;
+  found: number;
+  remaining: number;
 }

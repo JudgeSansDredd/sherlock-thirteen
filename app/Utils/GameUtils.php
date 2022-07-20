@@ -43,7 +43,7 @@ class GameUtils {
     }
 
 
-    public static function calculateGameState(Game $game) {
+    public static function getGameState(Game $game) {
         $playerStates = [];
         // Iterate through players
         foreach($game->players as $player) {
@@ -59,7 +59,7 @@ class GameUtils {
             array_push($playerStates, $playerState);
         }
         // Return game state
-        // TODO: Return game state
+        return $playerStates;
     }
 
     public static function getCurrentGame(User $user) {

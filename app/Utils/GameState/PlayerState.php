@@ -10,10 +10,10 @@ use App\Models\Symbol;
 use Illuminate\Support\Collection;
 
 class PlayerState {
-    private Player $player;
-    private Collection $symbolStates;
-    private bool $hardMode;
-    private int $handSize;
+    public Player $player;
+    public Collection $symbolStates;
+    public bool $hardMode;
+    public int $handSize;
 
     public function __construct(Player $player, Game $game) {
         $this->hardMode = $game->hard_mode;
