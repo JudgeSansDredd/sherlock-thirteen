@@ -46,8 +46,8 @@ class PlayerState {
     }
 
     public function interrogate(Interrogation $interrogation) {
-        $this->_setSymbolMinimum($interrogation->symbol, $interrogation->numberClaimed);
-        $this->_setSymbolMaximum($interrogation->symbol, $this->hardMode ? $interrogation->numberClaimed + 1 : $interrogation->numberClaimed);
+        $this->_setSymbolMinimum($interrogation->symbol, $interrogation->number_claimed);
+        $this->_setSymbolMaximum($interrogation->symbol, $this->hardMode ? $interrogation->number_claimed + 1 : $interrogation->number_claimed);
 
         // Miscellaneous extra logic for hard mode
         if($this->hardMode) {
@@ -59,10 +59,10 @@ class PlayerState {
             $duplicatesExist = $interrogations->count() !== $interrogations->unique('number_claimed')->count();
             if($multipleInterrogations && $duplicatesExist) {
                 // Based on how the game works, if there are duplicates, they will all be duplicates
-                if($interrogation->numberClaimed == 0) {
+                if($interrogation->number_claimed == 0) {
                     // "Seen" all cards, never had more than 0
                     $this->_setSymbolMaximum($interrogation->symbol, 0);
-                } elseif($interrogation->numberClaimed == $this->handSize - 1) {
+                } elseif($interrogation->number_claimed == $this->handSize - 1) {
                     // "Seen" all cards, always has one less than hand size
                     $this->_setSymbolMinimum($interrogation->symbol, $this->handSize);
                 }

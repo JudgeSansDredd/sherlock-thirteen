@@ -11,20 +11,25 @@ interface PropType {
 export default function SuspectStatus(props: PropType) {
   // Add .suspect-cleared when the suspect can't be it
   const { name, symbols, suspectState } = props;
+  const { mustHave, cantHave, cantBe } = suspectState;
+
+  const startingHandSuspect = cantBe
+    .map(cantBeName => cantBeName.toLowerCase())
+    .includes(name.toLowerCase());
 
   const getCantHaveCleared = (symbol: ShortSymbolType): boolean => {
-    return suspectState.cantHave.includes(symbol);
+    return cantHave.includes(symbol);
   };
   const cantHaveCleared = symbols.some(getCantHaveCleared);
 
   const getMusthaveCleared = (mustHave: ShortSymbolType): boolean => {
     return !symbols.includes(mustHave);
   };
-  const mustHaveCleared = suspectState.mustHave.some(getMusthaveCleared);
+  const mustHaveCleared = mustHave.some(getMusthaveCleared);
 
   const symbolEls = symbols.map(symbol => {
     const murdererDoesntHave = getCantHaveCleared(symbol);
-    const murdererDoesHave = suspectState.mustHave.includes(symbol);
+    const murdererDoesHave = mustHave.includes(symbol);
     return (
       <div
         key={`${name}-${symbol}`}
@@ -37,7 +42,7 @@ export default function SuspectStatus(props: PropType) {
     );
   });
 
-  const murdererHasEls = suspectState.mustHave
+  const murdererHasEls = mustHave
     .filter(mustHave => {
       return !symbols.includes(mustHave);
     })
@@ -55,7 +60,9 @@ export default function SuspectStatus(props: PropType) {
   return (
     <div
       className={`card-styling suspect-status ${
-        cantHaveCleared || mustHaveCleared ? "suspect-cleared" : ""
+        startingHandSuspect || cantHaveCleared || mustHaveCleared
+          ? "suspect-cleared"
+          : ""
       }`}
     >
       <div>{name}</div>

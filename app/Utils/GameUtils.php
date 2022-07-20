@@ -63,7 +63,7 @@ class GameUtils {
     }
 
     public static function getCurrentGame(User $user) {
-        $game = $user->games()->latest()->with('players')->first();
+        $game = $user->games()->latest()->with('players', 'startingSuspects')->first();
         $isValidGame = !empty($game) && Carbon::now()->subDays(1)->isBefore($game->created_at);
         return $isValidGame ? $game : false;
     }

@@ -43,8 +43,12 @@ export function getSymbol(val: ShortSymbolType | LongSymbolType): SymbolType {
   }
 }
 
-export function getSuspectState(game: GameType): SuspectStateType {
-  return { mustHave: [], cantHave: [], cantBe: [] };
+export function getSuspectState(
+  game: GameType,
+  gameState: PlayerSymbolType[],
+): SuspectStateType {
+  const cantBe = game.starting_suspects.map(suspect => suspect.name);
+  return { mustHave: [], cantHave: [], cantBe };
 }
 
 export function getNonActivePlayers(game: GameType) {

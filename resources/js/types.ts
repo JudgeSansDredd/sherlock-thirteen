@@ -13,6 +13,11 @@ export type SuspectNameType =
   | "Mary Morstan"
   | "James Moriarty";
 
+export interface SuspectType {
+  name: SuspectNameType;
+  symbols: SymbolType[];
+}
+
 export type ShortSymbolType = "p" | "l" | "f" | "b" | "j" | "n" | "e" | "s";
 
 export type LongSymbolType =
@@ -56,6 +61,7 @@ export interface GameType {
   num_players: number;
   active_player_id: number | null;
   hard_mode: boolean;
+  starting_suspects: SuspectType[];
   created_at: string;
   updated_at: string;
   players: PlayerType[];

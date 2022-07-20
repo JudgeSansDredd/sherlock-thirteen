@@ -7,9 +7,10 @@ import { getActivePlayer, getSuspectState, getSymbolState } from "../utils";
 
 declare function route(name: string): string;
 export default function Home(props: AppStateType) {
+  console.log(props);
   const { game, gameState } = props;
   const active_player = getActivePlayer(game);
-  const suspectState = getSuspectState(game);
+  const suspectState = getSuspectState(game, gameState);
   const symbolStatusComponents = getSymbolState(gameState).map(symbolstate => {
     const { symbol, found, remaining } = symbolstate;
     const params = {
