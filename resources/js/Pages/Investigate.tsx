@@ -18,6 +18,7 @@ interface InvestigateStateType {
 
 declare function route(name: string): string;
 export default function Investigate(props: AppStateType) {
+  // TODO: Adjust investigate view: they only raise their hands
   const [investigateState, setInvestigateState] =
     useState<InvestigateStateType>({ symbol: null, results: [] });
 

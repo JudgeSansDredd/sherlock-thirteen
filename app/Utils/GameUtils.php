@@ -54,11 +54,12 @@ class GameUtils {
             }
             // Handle investigations
             foreach($player->investigations as $investigation) {
-                // TODO: Alter game state
+                $playerState->investigate($investigation);
             }
             array_push($playerStates, $playerState);
         }
         // Return game state
+        // TODO: Return game state
     }
 
     public static function getCurrentGame(User $user) {

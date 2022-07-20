@@ -26,7 +26,6 @@ class CreateInvestigationListener
      */
     public function handle(CreateInvestigationEvent $event)
     {
-        // TODO: Only save if this "hidden card" hasn't already been hidden
         $event->investigations->each(function($investigation) { $investigation->save(); });
     }
 }

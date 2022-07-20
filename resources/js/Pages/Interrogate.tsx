@@ -121,6 +121,7 @@ export default function Interrogate(props: AppStateType) {
   const numberOfSymbolInGame = interrogateState.symbol
     ? interrogateState.symbol.total_in_game
     : null;
+  const handSize = 12 / props.game.num_players;
 
   const readyToSubmit =
     interrogateState.interrogatee !== null &&
@@ -152,6 +153,7 @@ export default function Interrogate(props: AppStateType) {
         <NumberButtonRange
           handleClick={handleNumberClick}
           numPossible={numberOfSymbolInGame}
+          handSize={handSize}
           selectedNumber={interrogateState.numberClaimed}
         />
       </div>

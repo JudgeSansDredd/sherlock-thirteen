@@ -63,7 +63,7 @@ class GameController extends Controller
             return response('Incorrect name given', 400);
         }
         $symbol = Symbol::where('short_symbol', $request->symbol)->first();
-        $interrogation = new Interrogation([
+        $interrogation = Interrogation::firstOrNew([
               'player_id' => $player->id
             , 'hidden_card' => $player->hidden_card
             , 'symbol_id' => $symbol->id
@@ -78,7 +78,7 @@ class GameController extends Controller
         $request->validate([
             'results' => 'required|array',
             'results.*.player_id' => 'required|integer',
-            'results.*.number_claimed' => 'required|integer|gte:0|lte:5',
+            'results.*.hand_raised' => 'required|boolean',
             'symbol' => 'required|string',
         ]);
 
@@ -87,11 +87,11 @@ class GameController extends Controller
         $results = collect($request->results);
         $investigations = $results->map(function($result) use ($symbol) {
             $player = Player::find($result['player_id']);
-            return new Investigation([
+            return Investigation::firstOrNew([
                   'player_id' => $player->id
                 , 'hidden_card' => $player->hidden_card
                 , 'symbol_id' => $symbol->id
-                , 'number_claimed' => $result['number_claimed']
+                , 'hand_raised' => $result['hand_raised']
             ]);
         });
 

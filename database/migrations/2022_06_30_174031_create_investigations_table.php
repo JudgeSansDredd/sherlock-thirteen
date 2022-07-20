@@ -18,7 +18,7 @@ class CreateInvestigationsTable extends Migration
             $table->integer('player_id');
             $table->integer('hidden_card');
             $table->integer('symbol_id');
-            $table->integer('number_claimed');
+            $table->boolean('raised_hand');
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ export default function PlayerInvestigation(props: PropType) {
       <NumberButtonRange
         numPossible={props.numberPossible}
         selectedNumber={props.selection}
+        handSize={3}
         handleClick={handleNumberClick}
       />
     </div>

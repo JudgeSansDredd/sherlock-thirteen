@@ -33,53 +33,69 @@ class PlayerState {
         $this->symbolStates = collect($symbolStates);
     }
 
-    private function getSymbolState(Symbol $symbol) {
+    private function _getSymbolState(Symbol $symbol) {
         return $this->symbolStates[$symbol->short_symbol];
     }
 
-    private function setSymbolMaximum(Symbol $symbol, int $numberClaimed) {
-        $this->getSymbolState($symbol)->setMaximum($numberClaimed);
+    private function _setSymbolMaximum(Symbol $symbol, int $numberClaimed) {
+        $this->_getSymbolState($symbol)->setMaximum($numberClaimed);
     }
 
-    private function setSymbolMinimum(Symbol $symbol, int $numberClaimed) {
-        $this->getSymbolState($symbol)->setMinimum($numberClaimed);
+    private function _setSymbolMinimum(Symbol $symbol, int $numberClaimed) {
+        $this->_getSymbolState($symbol)->setMinimum($numberClaimed);
     }
 
     public function interrogate(Interrogation $interrogation) {
-        $symbol = $interrogation->symbol;
-        $numberClaimed = $interrogation->number_claimed;
-
-        $this->setSymbolMinimum($symbol, $numberClaimed);
-        $this->setSymbolMaximum($symbol, $this->hardMode ? $numberClaimed + 1 : $numberClaimed);
+        $this->_setSymbolMinimum($interrogation->symbol, $interrogation->numberClaimed);
+        $this->_setSymbolMaximum($interrogation->symbol, $this->hardMode ? $interrogation->numberClaimed + 1 : $interrogation->numberClaimed);
 
         // Miscellaneous extra logic for hard mode
         if($this->hardMode) {
-            $interrogations = $this->player->interrogations()->pluck('number_claimed');
-            $allNumsMatch = $interrogations->count() === $interrogations->unique()->values()->count();
-            if($interrogations->count() > 1 && $allNumsMatch) {
-                if($numberClaimed == 0) {
+            $interrogations = $this->player->interrogations()->where(
+                'symbol_id',
+                $interrogation->symbol->id
+            )->get();
+            $multipleInterrogations = $interrogations->count() > 1;
+            $duplicatesExist = $interrogations->count() !== $interrogations->unique('number_claimed')->count();
+            if($multipleInterrogations && $duplicatesExist) {
+                // Based on how the game works, if there are duplicates, they will all be duplicates
+                if($interrogation->numberClaimed == 0) {
                     // "Seen" all cards, never had more than 0
-                    $this->setSymbolMaximum($symbol, 0);
-                } elseif($numberClaimed == $this->handSize - 1) {
+                    $this->_setSymbolMaximum($interrogation->symbol, 0);
+                } elseif($interrogation->numberClaimed == $this->handSize - 1) {
                     // "Seen" all cards, always has one less than hand size
-                    $this->setSymbolMinimum($symbol, $this->handSize);
+                    $this->_setSymbolMinimum($interrogation->symbol, $this->handSize);
                 }
             }
         }
     }
 
     public function investigate(Investigation $investigation) {
-        // TODO: Add investigate logic
-        // TODO: Adjust investigate view: they only raise their hands
+        if($investigation->raised_hand) {
+            $this->_setSymbolMinimum($investigation->symbol, 1);
+        } else {
+            $this->_setSymbolMaximum($investigation->symbol, $this->hardMode ? 1 : 0);
+        }
+
+        // Misc extra logic for investigations
+        if($this->hardMode) {
+            $investigations = $this->player->investigations()->where(
+                'symbol_id',
+                $investigation->symbol_id
+            )->get();
+            $numRaised = $investigations->filter(function($i) {
+                return $i->raised_hand;
+            })->count();
+            $numInvestigations = $investigations->count();
+
+            if($numInvestigations > 1 and $numRaised === 0) {
+                // "Seen" every card, never raised hand
+                $this->_setSymbolMaximum($investigation->symbol, 0);
+            }
+            if($numRaised === $this->handSize) {
+                // "Not Seen" every card, never dropped hand
+                $this->_setSymbolMinimum($investigation->symbol, 2);
+            }
+        }
     }
-
-    // public function getPlayer() {
-    //     return $this->player;
-    // }
-
-
-
-    // public function getSymbolSolved(Symbol $symbol) {
-    //     return $this->getSymbolState($symbol)->isSolved();
-    // }
 }

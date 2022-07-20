@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CreateInterrogationEvent;
+use App\Models\Interrogation;
 
 class CreateInterrogationListener
 {
@@ -24,7 +25,6 @@ class CreateInterrogationListener
      */
     public function handle(CreateInterrogationEvent $event)
     {
-        // TODO: Only save if this "card" hasn't already been hidden
         $event->interrogation->save();
     }
 }

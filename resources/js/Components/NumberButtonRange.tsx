@@ -3,6 +3,7 @@ import NumberButton from "./NumberButton";
 
 interface PropType {
   numPossible: number | null | undefined;
+  handSize: number;
   selectedNumber: number | null;
   handleClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
@@ -11,7 +12,9 @@ export default function NumberButtonRange(props: PropType) {
   if (props.numPossible === null || props.numPossible === undefined) {
     return <></>;
   }
-  const numberRange = [...Array(props.numPossible + 1).keys()];
+  const numberRange = [
+    ...Array(Math.min(props.numPossible, props.handSize) + 1).keys(),
+  ];
   return (
     <>
       {numberRange.map(num => {

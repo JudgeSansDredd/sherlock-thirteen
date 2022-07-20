@@ -13,7 +13,7 @@ class Investigation extends Model
           'player_id'
         , 'hidden_card'
         , 'symbol_id'
-        , 'number_claimed'
+        , 'raised_hand'
     ];
 
     protected $casts = [
@@ -21,7 +21,7 @@ class Investigation extends Model
         , 'player_id' => 'integer'
         , 'hidden_card' => 'integer'
         , 'symbol_id' => 'integer'
-        , 'number_claimed' => 'integer'
+        , 'raised_hand' => 'boolean'
         , 'created_at' => 'datetime'
         , 'updated_at' => 'datetime'
     ];
